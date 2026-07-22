@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Tolok Skru Mikrometer</title>
+    <title>Kalkulator Angkup Vernier</title>
     <style>
-        /* --- GAYA CSS --- */
+        /* Gaya Am Halaman */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4e8e1; /* Warna latar belakang lembut seperti dalam gambar */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f1eb;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        .container {
-            background-color: #fff;
+        /* Bekas Utama Halaman */
+        .main-wrapper {
+            background-color: #ffffff;
+            border: 2px solid #333333;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             padding: 40px;
-            border: 2px solid #333;
-            width: 900px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            position: relative;
+            box-sizing: border-box;
         }
 
         /* Style untuk Butang Home */
@@ -47,278 +50,296 @@
             background-color: #1d4ed8;
         }
 
-        h1 {
+        /* Tajuk Utama */
+        h1.main-title {
             text-transform: uppercase;
             font-size: 24px;
             margin-top: 0;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+            color: #000;
         }
 
-        /* Ruangan untuk Imej */
-        .image-placeholder {
+        /* Bahagian Imej Angkup (Pelarasan Saiz Imej) */
+        .caliper-image-section {
             width: 100%;
-            height: 250px;
-            background-color: #f9f9f9;
-            border: 1px dashed #ccc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #888;
+            text-align: center;
             margin-bottom: 30px;
-            font-style: italic;
         }
 
-        /* Susun atur Grid untuk Data dan Nota */
-        .grid-layout {
+        .caliper-image-section img {
+            max-width: 75%;     /* Boleh tukar ke 60% jika nak lebih kecil */
+            width: 100%;
+            max-height: 220px;   /* Mengelakkan imej terpotong/terlalu tinggi */
+            height: auto;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Susun atur Grid untuk Data Input dan Nota */
+        .info-grid {
             display: grid;
-            grid-template-columns: 1.2fr 1fr;
+            grid-template-columns: 1.3fr 1fr;
             gap: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
-        /* Kotak Kotak Standard */
+        /* Gaya Kotak Kotak (Data, Nota, Keputusan) */
         .content-box {
-            border: 2px solid #333;
+            border: 2px solid #333333;
             background-color: #fff;
+            box-sizing: border-box;
         }
 
         .box-header {
             font-weight: bold;
-            border-bottom: 2px solid #333;
-            padding: 5px 10px;
+            background-color: #ffffff;
+            border-bottom: 2px solid #333333;
+            padding: 8px 15px;
             text-transform: uppercase;
             font-size: 14px;
         }
 
-        /* Baris Input/Output */
-        .row {
-            display: grid;
-            grid-template-columns: 5fr 0.2fr 1.5fr 0.5fr; /* Label, =, Input, Unit */
-            align-items: center;
-            border-bottom: none;
-            padding: 5px 10px;
+        .box-content {
+            padding: 10px 0;
         }
 
-        .row:last-child {
-            border-bottom: none;
+        /* Gaya Baris Input */
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr auto 90px auto;
+            align-items: center;
+            padding: 5px 15px;
+            gap: 10px;
         }
 
         .label-text {
             font-size: 13px;
+            color: #000;
         }
 
         .label-text strong {
-            display: inline-block;
-            width: 100px; /* Alatan teks label utama */
+            color: #000;
         }
 
-        .italic-note {
+        .formula-note {
             font-style: italic;
+            color: #666;
             font-size: 12px;
-            color: #555;
         }
 
-        .separator {
-            text-align: center;
+        .equals-sign {
             font-weight: bold;
+            color: #333;
+            text-align: center;
         }
 
         /* Medan Input Kuning */
-        .input-field {
+        .data-input {
             width: 100%;
-            border: 1px solid #333;
-            background-color: #ffff00; /* Warna kuning input */
+            border: 1px solid #999;
+            background-color: #ffff00;
             padding: 4px;
             font-size: 13px;
             text-align: center;
             box-sizing: border-box;
+            border-radius: 2px;
         }
 
-        .unit {
+        .unit-text {
             font-size: 13px;
-            padding-left: 5px;
+            color: #000;
+            width: 25px;
+            text-align: left;
         }
 
-        /* Medan Output (Keputusan) */
-        .output-field {
-            width: 100%;
-            border: 1px solid #333;
-            background-color: #f0f0f0; /* Kelabu muda untuk keputusan */
-            padding: 4px;
-            font-size: 13px;
-            text-align: center;
-            box-sizing: border-box;
-            font-weight: bold;
-        }
-
-        /* Kotak Nota */
-        .note-box {
-            border: 1px solid #333;
-            padding: 10px;
+        /* Bahagian Nota */
+        .note-box .box-content {
+            padding: 10px 15px 15px 15px;
             font-size: 12px;
             line-height: 1.5;
+            color: #000;
         }
 
         .note-box ol {
             margin: 0;
-            padding-left: 20px;
+            padding-left: 18px;
         }
 
         .note-box li {
             margin-bottom: 5px;
         }
 
-        /* Kotak Keputusan (Lebar Penuh) */
-        .result-box {
-            margin-top: 20px;
+        /* Bahagian Keputusan */
+        .final-result-section {
+            border: 2px solid #333333;
         }
 
-        /* Pengaki petunjuk */
-        .footer-legend {
+        .final-result-section .box-content {
+            padding: 10px 0;
+        }
+
+        .result-row {
+            grid-template-columns: 1fr auto 110px auto;
+        }
+
+        .result-output {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+
+        /* Penunjuk Pengaki */
+        .footer-guide {
             margin-top: 30px;
             font-style: italic;
             font-size: 13px;
+            color: #000;
             display: flex;
             align-items: center;
+            justify-content: flex-start;
         }
 
-        .color-box {
-            width: 40px;
-            height: 20px;
+        .color-legend {
+            width: 35px;
+            height: 18px;
             background-color: #ffff00;
-            border: 1px solid #333;
+            border: 1px solid #999;
             margin-left: 10px;
             border-radius: 2px;
         }
 
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .caliper-image-section img {
+                max-width: 95%;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="main-wrapper">
 
     <!-- BUTANG KEMBALI KE HOME -->
     <a href="index.html" class="btn-home">🏠 ← Laman Utama</a>
 
-    <h1>Micrometer Screw Gauge</h1>
+    <h1 class="main-title">Vernier Caliper</h1>
 
-    <!-- --- Ruangan Imej --- -->
-    <div class="image-placeholder">
-         <img src="data:image/png;base64,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n/+MXbt2dfux3eVwOFBWVoZt27Zh2bJlWL16NU6dOgWbzYaNRuPyZ0MIId1FYZGQHmCz2TB//nzExcUhPz8fu3fvhsViwdatWwEAt956a5umXGfnz59XpnGZO3cuBEGAKIqYMWMGAODYsWM4cuSI6l6dY4xBq9Xi+eefh9FoRFFREV5++WWXahYBICIiAv/4xz+wbds2vPDCC5g3bx6SkpLAGENRURF+8pOf4MsvvwSkfoGQBkE039jS0tLm32azmR07dgwdO3aMrKys3P4/p8E/v/3tb8sA1D4zZswoa2pqIn1C3oUQ3vXll19eefy94e233363vG/nzp33iOP42+f4e1/y3/J3331Xq/f961//urNbt26dfn7vvvvuzk8++aR/x44d31Uf78G1tbXdn/p4P9p3R0A8o/3r/N577xXv3r2bdGv3/6G//OUvd02aNMnHj31SUpJvI4R423333XfP0KFDez/22GOlY8aMad63b9+O4ODgI3Pnzr30xRdf/NqUce/S4sWLq3S8v13O0tLSHkIIpL+R/p7fL37xi2s9X2k5vP/+/fOfeOIJCov3K31S2A/LpT/S/eJ33333i3I+1Eilf27OnDnvk3v1+k5iYqJPX3/79+/vffj/0K244or/3/vJ5MmTrzr+/5f8t3fXrl3fVT934sSJq45f95w/f3764MGDf488Jj//jS/6m6uqqq669rXX/Xv1fS6XefL3v//9/ffff9+m1fX169fPHzVqVG+dTvfv0aNH92Lz5s1/H4T729/+tllvX98p/e9+/fX/XG19kI8P52d3/515v4R8/4Qx9u/P7s4f+/fffz9dff/uu+fPn+80uXkZ3yOEeEdycjI++eQTsE/nThU0NTUp44M//PDDyveM53koZz7Xm/M5XN0+6216/X4uS3O5/D9bXlX5i22u2+1y20vLpX543i8vN/P+/fvX/fznP28z/1+4cGHXunXrvlcf0x/31fO1/933u2fP/8tf/vKX/tXV1Vedd9p/p0u/+/P32f3X2d+S/S2f216mffm9jM50/3i1tbU9q6ur/zp16tSuj/f87fzzz23z3yv/d2994xvf4PnzNf38Ld85Ovn90e+fN+uWf3e3z1m+/0uXLk2bOnXqL3tS+BIEAe+88w6e+OKL//3p1/z6XJv7l/2vf3/T/L0/f37GjBk91a/51q244oL/v5399I+1f/31r//z4/L+P/2+qf/x491Xf6++r52/O/3t33ffX81fX93/a/eX6v4/e57XpT8sX/38e44e/d/X/fv/P//11/+/++e//4d/33m3vH+/fs848+/f35+vP/uX+e/56y//p3S/X+1f60/vvvvu4a0//P/6+m9v/79/L+8f/33n38734+ed/X68/Pj88f3493e8e/Xv36/3z36/f/a/S+/3P3p+eP+8r7+/f368u7/7O/8/O987f6/m/8u3fS//3/9I8xX91vX333+/pL2389d311///m9v/+vPzv4+/f7649d33z9529mP9/d2dt6f/P/2/Xz/+aXp8933//X335/O/p7+75/eT4X4lH10/2e8+eb+9fU/3fX3P+i+f27m/9/5f/f3/fXvzXz9+3m/2e8X33z/887+//s389fd/e3Zf/92vr++P3v3/c/3d/8233/+ff/v73+/f766e399e3355X/17820+ed23s435+/9/fbvf5/+edvP99df9//5e35/P+lud9/++f7q+/PzP3370f/M9yPvfvXz29/8ffrN6X49ve8//d8/9f+b//O2v99/92/n836f+sP/3L//fv/vv/m/p97u/m4+72/XvtX39f5fX//52f8vf5/+evrn/1++81+n2//f/s7//19e5i3/X7q+d29/f3vf+/f302b/a3v5/0u/7a4vnf1d/O8P6e2/3L/3y7e0892f33//d+b//f3Xv//x393/vf9fvv/++er3I/+3/vf6093881335/v9//2/v5v6e9s9/43eN+m/4+M3v/+evP3/7fzr//e8e3/9e7rf3/ffPz8aXp9/v174uXf4nN6E+/5/f+bv0S/f04+fr//P/N//54vf//eN9354v/+/950/Lz8/v/P1z+/3X3S/v/v14f29+e7r+/3v++/++/s7542I9+ffn/+vv/eXv1/v8vN75++4/3n/+d/771+vn5//983/vS96n8q/5x//08/nnXffmff5//vv/8//3bXv3/u/S1Oevf2Xm+9mXvqzeXm9+v//53S7y8s/v7//mP9u/u/f7X91/e/+O3/573//u//003f/p250f283m0f3N/vf3v3f9+f/4d/33v1+fv7S7e305ffm5vv7r5///97395e+399///yfv5+d//yN7u907+/867t3X++v/4++/mXbvf83p8vvl7f/eX6evP833+1+/vJ/99133v71f+9P/9f38v64+m/v+S39vfz5/vrmv3/8/Pev13//eS//Xn78efvLd7705s//f+/57+/348e35v/+9v4X/T0A4eXk//P/+3///vf920Xv+m///f/t/Nf/uN//+/9//v//83/vvvf/f0vv59/7/5f5u9///82//z/92fnn//L+ef3N/11a/r0A4f/Xv3f/fvd3p7P/9ffy0/fX//6X//vL+3vvv+/+7+/O/pff/1L//efmS7eXm2+mX76vv/S/v/f43//337/3//u/f13+fv/82d33/X/f/+ef//9/9L82A/4F9I+y2m5sWf0fXGk8gwM7f8S1PToit323S55sXv3f3fX2x5++f2j//Xffv/f+/mUa4u3u/3/vf/v+Xfzt+vK++/9/7/3995f/s3//358vfd/8//3r//v36+uPv/9f+v993/s//Xvf/u389aXzL5e+P/X//9/7e/++//3v/e//+7t//+eXvrmS/59p3rX2T5e++9f/f7xXv8/+5r++/e/v+evv9e2S5p/70uUvfz6/+e/z8u9+mffy+d57///+v/vdv3d/f33/5f/f/0v//3v/+zPfy5e++99/4v7S3/3n30uS9f92eX/1d+efp//e/750//19/7//x//fe/+fP1/+vvT3fPn48v339e0vf9e3S7v8/fL/931/+fd43/Xf3S///e/+9f8+X9//vvP3++e3//3P6a/vvv+/9L/v/f3d+fPy5///Xf9/+d//l5e///m//0vv0//v3/n/z1+vv7v//vf89e/X//761/9fevN/99/33/vf/7v0pX///++Xvj7v+/+3/f/f/83f/d87X9Iu//7/53j/+feXy39+vvR1/fO3/S39u7x/3v/11//179e3m3P/X9/379/+f/++//f/+dfp/0///uX+/vr123f858vL3eX3P/3b3/92/v//531f+l9ff//+8f35/8/3p1++/19/+e/L/1/+/e+/f//377u/+ef27vvn+/vv/+79/N//83///b58//3b9/J///330vfPl5//l74/5f9Lf+/631/f/fevb/f+efv///n/79e/d98vf787v3/+9fL8/+/94/3/+7+/e/p/vvvnT8///f+/vv1/e+/f33+f3n38/fP9Xf29vf/v/+9v7///z++/f//20/v15///6///9//u/+f9/3f35fe3vv/p7//++f34533/Xp4fS/vf45/S9/+f/vj+/vvO3//r9+//e//9f/++///3v3++/r66d3++/XN/7/f/x//X+euvf++/t5c//+ef/r/f/9//9+nnT/++v17/fv7vfO/m//f74+vvp19f/+8//f//N//d//1+//v++/s73/0vS397X/rr3/++m3/vS9+//X2aX1//37+ev5m++/7vv///+//v9+df/0/+/P///f///368vX48/+Xv4X++/f//72+/+9/f/m/fX98++vfy2//+//ffX38///33+//vf++/L9+//r/8e3/9e/f+/f/19f/+///73////X//f////X/X/X9X+f98/p/v9/fL9f/7/ff29f/9///f////m//vf/v++/X3p7f/fvv36+/v+//+f///++v13f/X///70/9//X/3////+n///3//v/+/57f+/3v3/p//9//9///35e//vv1f/72///7////r//v///738vb50+/7/+vv17//+v//f/+v/+/eX/fXvv79f7+9v3/337ffm0++/fXf34/f+/e/+/f37+e/vf57e335//v//vv+//1/98vL1+/u+fP1/+nvXf9ffv5eX35ePj//fv///vf35//z////177/X/+f/1/33/35vvf9//+/+/f///+/+//r77//9+vv+//vffz5+/vn28++/vv/+3f/fv9/+X/X///+ef3+/vv29//p8/u/+fvv9/f/+ffu7eX7y+ffz/v17++/f928/Xf2++/7e/f////17//z//u+/7f5/3y9f+vS/7f//9v3/79f///9/+X7+//++//+e3/+7e//32/f317++/X////t/+ft3/ffv//f//8vv7ff9///z8///ff/2/+vvvv/+3ff3z99+vfL78f///b/9v///9+f/4++/Xvv//f/+/////+////++/+/9+/fv1/e3p7f17+//X////74++/f//vv/97+3759v///+/ff////97eX15+/v/2+ff9e/r/+fv//ffn/++/X+//15f3j/9////++/X3pbfXl///+efv2+efx6f///f//Xvf////7+fv+/vX2/vn7/9v3x/++ef////9e////9+e3t318+//9/fnt+efX//74++/389////+///9+vv/+ff//1/++vn377e3/5fnn+ffXvv//74f33///fv7+3+/n+f/++/nt9//8+ef7+9vb9+/P+//v72/fv395fvl///++//+//X//+fvfvv/1/e/fnt9/3X/5d+//f2+/7+/3++/f/v/m/+vv/2++nt6ff7e////nt9e3779eXv7fvn+eXz6++/z28vf/+ef////9+e3f//vv/+e/vn+/++vv/3+efnt++e/9fX+//d///++/nt6/f//+//X/5fvv72++nt9///28fT2///e/t+/v//+/v9+//nt8eXvv/5/v2+fv//9+ff9fXnt+3/fnt4+/vv+/ffnt/X2++vvf3///X2//n2///r8////9fX7///nt3/376+/X/nt5en9/nt5+/ff38+/vvnt///e/X0+/f4+/nt3f3z++/919fv5/nt4+/vv/+ff9f//7+3/e/b18+//f/nt8/v/ff4++/X///v//919fv5+/nt3///m5//++/f5+efl+/ff////v//X3/f/fnt7ff29//v///7+Xf3+ff///nt4f3r+//f/5fvv///nt+//++///Xf9fXz+f/v9ff/59///32///++/f/+f5+Xv2+ffz2/ff1+ef4f///5fff///5fffnt5en7+35////++/78ffr+//f9///9/fnt9/b2//fnt+//X/9e+/f////7++/vv/35++vv3/37+//Xz3/nt/ff///b1+/+//X//+Xf///r///3///fnt+//35/3n+///79fXnt/f5f/r/ffz9/f4//v/+vj9/+/ff////nt+fX////nt9//x79f//18+X///x9+//9v///n+///f3/+fv3///9fP7////n+Xp/n79/ffnt/f3n+/+efnt//e+/nt///X7///e////nt5+/nt8+//X/9enp7f/fvv3///r////7///3///3/5e39ff/d/3///d///b1+/+ff///nt+/e3r+///18///X/+fv////7///769///nt///dff////3/v3p6e///f3l///37+X5ff7/f////3///f57ef///e3l5e3///3//v3///z++/9//vv///e3f/+fv///3r///9+ff/+f9/+v3/v3+X/+ff9ennt7///fvv2//1//nt+efv+/nt7///357f/7+ef3nt7e///19Pf2///2//d///f4+fvnt6///f5e3p+//d3f/5eXp+fvnt4+/x4eX33+eXn4/ffy7ff4++/9/vnt8+v19f/d3ffn//eXz6/f/+efp7e3X1//f9////9+ff///e3l5en1+/+/X3p///z29fPz8vv2+//fnt9+//799/fXv+fv57ff/+ffnt/28/Xf2/nt7e3l7+///f3//f//v3+/P+/nt5fXt6+///7ffx5+//n2+v9/nt8+v////n29fv+3d/9//f5eX358/3b4/fv//fnt+ffz9///2///d3X9/X28vPr6//b3f57f/z/nt6///p6/X//b48vPn3+8++/nt6eXvv5+ef/29//r09v357ennnt89vvj2+f3x9/Pr6///f/3X3//eXv5///18fT1+//919///dff3f9//57eX18+ff319+X58+//v4++/d///e/57fvv/z19fv+//28fnt4+/nnt7ff////++/f1///n6///29fPr+///9fXp9+efz6/f/3nt+ef2+fb/n2//ff/+ff////28/D08v/m3+fb58vX74e/vv93e39/33/fXp9///z2+fnt///j2+/+/e/p/f3z+/r4+/X//9/Xz6fPr6///++/p4+/r8///v59e/nt4+ft69vXz49//vv/7+/nt/X48///fvv///x4+vf38/Tr/ffl7ff/+e/v3/9/ff/d///r6eX2++/2/9+/f/+///73////Xz2/nt4fnt7enr+/fbx8fT38+f//e///l9efr4/P0+vv//fb///++/X18/Xz+/vvx5evj6e3z37///z/nt/e/r59vvx/vj4++/fb5+/X///v3+ef//r///f9/nt9+/ff//r99+vvx/fnt7ef//vv/+vr3///f3/35ffp/3z7fX////5ffnt/e/2/fnnnt3x7+//fnt///n2++/P06/fb5fPr///5fnt8+//x7f/29fv09ffl5efr7e335///37///fnt9fnt+/P49+/r+/Pv+///33////e/57f/d/+fr8//f5+vXv///2+3///p8+efp7f3Xz5+ff5+/rnt7///2///z/Pr3++/f1/++32f5f//efr6///7+/ff/5/X1///9fX//eX9/vj2+fPr6/fb3+/v/3//p5+v9/319vX0///e///f/+f///3///nn39/b/9ff57f///x8/fXp9///35//v2/3b8f//nt5+v0++/r6e3t/fvv///97ffj8///z9/j2+///2//fbz8fnt9+///08+v9//b1+/P/x7/d9f//f9ff//fb//n2+vr3///2+/P/nt7ff4+///e3t5ffnt4/X36fnt5f/ff////++n2ff7+fb4///29/n4+X///r8fXj/9+X/nt7fPr4+v/Xz49fPn5+/3/9//fnt5fX7fPr++/2///p5efX3//nn39/f5+/z+X318+/2/+fb//e+/59fPr36+vf/n2+v/9///r1+e/z79f//+ft7fnt4+/2/ffl6efp9///18ef/2+f37///5e/f/vvnt/d9/r7/nn19+X59+//9f/b//3f/9vf/5eX5fX19/nt7e3z8f///5+fv29v/18+/57e3fPr2+//7+3/efr5+vj6ff9/X1+//ff/7++/2//Pz+ef2++e/j1//r6///2///nn1/d+/f//z9fX9fPr5///19+fr6+//++/r7f9v3/d+evz5++/5/f//n34/f/19f/d//fPr4+/X3////nn/fPv39/f9+efp8+/vv9/nt4++/3e9f/x/fX4++/19en3++/v5/Xl99/j/9fPr/+fb58/3d3/+X55+/b/9en3+fb0///z7fPj7+/j7+v/n/ffr99ff1++vv/efr+//29/nt5/vXl8///vnt/+vnx+fPl5+/t+fv9+ffnt6+Pj7+/v7e///37///b/e///ff///4+vv6+P/ffl49/l/+vr/3+ffz/d39/j5+//n36/nt/e/2+Xv5//f58fnn+fn5+vv//X//f76/ff75fnt4/X//f5e/nt/+ff1+fX0+/Pn2/Pn28vT49fT99//d/+X//5ffx+/1+f/++//fnt3/fXz2++/n39/n18+/n29ff59fPr58fL4+/Pn7+39fXj///ff57eXfnt4/nn3fPr//9/d+Xv3+fb3///19vPr5+///b0///29e3/vv///x4/33/+ef//Pn5e3n9/nt7+/f/+vrnt+//57/Xf///5f//n18+///x8efp7e3l/fPv+/ff7fXz49+/j8///3z7///b4eX2++/18ePz/9//j3//fXl8/f/y+//5/fn///1+vr8e/v3++/v//P74ff3++/7f3/9+f3////P7+f33///2/e/r/+fv//b3++/18ff/+vv58+/55fX3+/z/+fvv/3+ev9+/Pn17++/vnt6///z///e33x9+fr/+f/t/efr7ePr2++/p5/f7fnt6enp/X///3f/2/9/d/3j0///t79fT3+/1/ffp4fnn+f/r5ef/9///+f37/+nt3f5e///Xv9/+fr29ff/+fb//9/Pr8+Pr09v//x7/b4e3p5f//2///+v1/e/1/d3/+v//Xv/+/X7/++///f5+vn7+vX/fPv6fnt///b/7efp/fPn9en9fXv//9/t/+X///f/b07+/55en9en///nt3f92//f05///j36fnz4/fr6ePr3/9vbx8//nt7en1+Pr6efb/329Pr/e///b/7en///d/d///Pr//+vr/+3f9fPn9vPv7ePr//x4+vn89vPnnt+//X35///z2/2+/X///dff////6/3j5+Xp8+/t9ef///74+/55e/349vv7+eXf59vb29/f48fT959vv18+/t8en/fvv/9+vX78+Pr4/f///9vv/7f///t/+3f/+efnt7+Pr4+vv6ffp7+Pr7///j0/Pn3/efr9/Xnt+efnt//e+/fPr/+Pr7+P3z59vPj37f/x9vv1//X94++/d/32//d////6/e/j7+/p4/ffp///++/P169+/Xl8e3x/328/T1+fb49vTr8/9v199/+fb3/9/Pnt7/d9enp+//+efv2/nn3/dffp8+fnt8efj59eXn36+/3f/59efx5+vr79vP0/ffp///t6/+/Pv8+/X//X//z9f3x+//b4f/959en36+/r0++/l6enX///r7/Xj79fnt5+efvvnt/Xj///f1///48/Pr9/75//3n9/v9/fL///b9/efnt///X//Pv8e/7enx4+/X0+fbv8+/vvx9ennt////++/b4+/vj7+/r/fP1+/7/++///X18fnt/3z9/f/++vr2+ef///X5fnt/fnn///ffx5fnt+/f159vP3+/nt+//f3l6eX/v2+v1/fnn7fnn08ffnt///X58/r08vP3//3//x9fTnt////2+Pr/9vv//9fP1++/fb///e///vj7+fnt+32/f3l5/e/r5+ef19en3nt9/nt/e/2/f//1+v//3+ff55+/19f/+vnnt5+/d/9fnt6/332//z/efr36+/2+fr7+vn4+f3//3b3/nn5/fPn/f5e3v06///z7+/z4f//r6ef5e3l7ePrf39///e///d4///59/z5+/P09vPr6enX3//P36///9////39//3x8/ft/efvnt8+/3/f/e+/Pn3+/z//P36fnt5fPr59vv/+fb5/ff//39+vr9f//f9ff//e/z69/T3/fPnnt/+vr7///33///v0/X3///3+/Pz+P39/fn///b3+Pz/f3x9ffr09/t/+ff06+3/nt5/nt///b1fPv15f33++/P1/+fb38//7/v///3////5e/j/+Pv//d///e3l5ev////3/X3++fvv/+/p6fH//x9+//39/Pr7f9vj7fvvx+/358fnn3//X/+ff/b9///++/j7+v/09fT59//3/7f/P75//3///v779v31fXj3///x7+/p5e///+fX///Xv6fv6///7+/77ffz39+/X///9fX//9f359vPr8efp9e3x9//9v3/ePr3///x8ff7/Pr8+/t4+nnnt8+/x7ff37++/739ff9+/29/f//z4ePr2+fv//z5///z5///x49vX09fb/327+/r0//v/r17ffx9/f9+e3nt59vP5+fvv4++/t3/ff32/nt+e3////efr6/d4//j79vb//d3fnt+357fP9/fvv///9ff5/f/33+//X/+//f59vffvv///b9+/rnt5/nt49ffx7ff/x7efz6/ffz+//37f/3////v49ff///j7+//f/+fnx9fnn38eXp06fff49Pr2++/X49/3/3fPn3++f/3////38ev///X9/Xv//n3fPv4fnt///f0+/r//15en2+/r36f328fT5efr08vj7//ff//38ff/nn3//eX//X99/d//+v1+//n4/ffr4+/n6ff9/f9/ff////9++f/f79/Pn2//nt+f34f//9/3+e/v/18vffp6efX9////9///vv/+X33+vv/f/f/d9/3nt6+//n6+fv68vv/9fv39///fnt4++/f7///59en///39ff///d////P58fTz6efz9ef/f19fnt5+vf18e3n14fPv+/2//Pj8e3z3+//v9ffv///nt99//v//X3/f/p7+Xv/7efl/+fb18+/X/+vj5///++/+/p4ePr9//b3+/ffl6e3z16//f37/3//eef3fnnnt3x7+//Xnt5+/2+fX///2///p4+Xv+3X3+v/55e3n9/3z8/Tr6/3f/+3r6en79/Pr7+vf19e/f74eXp5efv//ffx5+/nt+/b9/v29ff99ef3/ff0+/r2+3nnt+//nt+vv///z09vD37+vf////9/fnt+efj4///9//+nn6eXn3+fPn17fffz9/57ev56ev09/t////57eP///+fnt/ffvv+ef/f5fnn3//x8//d////fnt5+/Pn38+fb59/3z4+/X77fPr+PPr///9/P2+e///z5eP3//f3////3///fP73++/j89/T08+3x9efj9/v19f/d//f58+Xr7/nt8///f37+/f//f/d39/n6fPn3///r/x+Pr08+3x7e3n28//v0+/v0+P1///5fPr/ffx8///9v9/x7fPv///j4+fvv7evl7d+frx5fP4++/r99/Pv///x9ffvv////r6eX2+/Pn19//n5ef769vT48fP9++/b6/Xj1++fnnt+//7fvv//f35//+/29/3/f9+fvfP0/fPr5+/d/fn///5e3n5e/p7e32///f5+e3r6e33++/Xv5/Pv8//7//P3++/nt8efx4+/2+Pr1+//+/r6//nn//j0/Pr3/+ffx9///9fPr8fX19fnn06+fn19Pr/59enj6f3z///4f///fnt///+fvv/+f/9fPnt////1++///P2/vH0+/3f4fnn/ePj49fnn///1+/v2f309ff0+/Xw4efx5d349/f6fPn/+fnnt9/d///2++/9vXj7+/v/+///z2+fnt59//7//35/fvv07+Pr+/v5//z+/X949vvz7eP5++Pr/Xnt8fX0+/3//nt+vv/307+/r5+/p5+//9/+v/7+/33++/fvv+/d///e/9+//v6//9v7ffz39P///n98ffr6e///z6/Xl5fD17//j0/fr+//v9efv39/3+//33++/ff55ffX55efj6eXl/f/35fXf//ePr2///f29v3X0//v//nt++vX1+PHz/Pffx8+//f/ffz5+en/5fnn6en3+/j2+/Xp4efP/1/ffX47+//j3++/b1/vj9efj4ff///v6e3x///94ef///29vb2+/f7+/Pn////X38++/ff5+/b9///j16f39/f///9ef3/+//nt7/f/++fvv4e3x8+Pr9+fb3++/f7//9ff3f3r59vf6fvv++/29f/nt+ef79eP/3/18eX98+/f4+fn6enp69f3x5df///75fnn339ff3f//++/ff32+/3z//98/Pn///ff//7/ff//e3v6+/3/f5/Pv5fPj7e3////39e/1++/n/fvvx4eX31++/59vvvv999///+/v+e/vv36ffb18/P18//d7/f9///v59ev4+//n5fP/3f08+/z+efv7ev5+fXz16///vnt6e32++/nt+3n////7+3f5+vv///77ff/d4+/v///18///X3/Xp4eP31/ePr6ef15+/z37+/57f/29//d///Xv7evl5+fv++/r//nn2+//9////3++/D2+/v////77///vv//fPv0///1/Xf9/Pv09ffp8///fvv19///48ff//j69f/e/3//Xz/Pr6+/x++/b9/33/nn//v///X3///z/e///r27//+/j15dffp4en5+evn0++/b5fX/5e///9//v/j9//3//j4/fr2+fb88vL4++Xl7dfT17/n07///3z17//Xv/nt+/358f/06ev2+/D18e/v///16e/d6fnt6efx/fnn////38vH5+/n///9///e3t5//vv+/+/v3/9/n29+/555/b29ff1/++/Pr9+Pv16//fnt9e359vv7efb0+/Tz8efp49fPn5++/r4+/X08+/f75ffz4++/v7+Pr+//n3++/ff////r6en5+fXv/+vf6//f149ff9/b14+vn///++/v19vv4/fj8/Pn9+Xj59vv///f18f/fvv36+32+fn/++Pv9f//3+ef/16+/Xvv///x4+ffy7efl+fT2//v36+fnv9+//f3///X24efp4fnn+fb////++3z4fPl/34fT5++f/nn07e/4++3z8/9///b3+fb6fX2+31+/X799f///d3t///X48fnn3++/318++/2+/3r34/Xl3f3z8+//4/Xp5df/5d+/18/Pr7e3v8f//4+3n+fn///36ff1///2+/Pn07ff95/fPn99fnt///2//ff///z9en2+/X1+f16+/t++/b19ffv55en9en///nt3f92/5e3//3///3++/+/ff//n2++/3f9+ffr4efz5+vf9ePr//r2/e/r59v/p4/ft7/3++/f/+32//7/efX///j19+//n5///5+/f399fP//4efp7en///n6ff57eXfnt4/nn335+ffz2//2+fvz2//+vrz7fD1/f15+/P5++/f4e/p0+f9+//1/3v2/34ef///nt/+/nt7+P/38O349ff05//+fb////n9/Pn3/Xv9//r88vrp7////39ff/+vf////b88ff9+/Pn6fPr08Pr18//ePj/9e//9//D1++/b///1+ffp7fX///z+fnnt+33++/93X9+e//+ffv2/Pn3/nn3+//b9+efv3///++/3/fv/+v//Pn/9ff9/f/++ff3///v+/e/p/fPr7ePr/x4+fb/nn33++evf08ffnt////b/379fXj4+/P/3/f9ff758ef/+vn4f/ff//b07evn/9e/3///+vr3/d+Xz6ffnt/fPnnt7+/33+/Pn////f2+fn18+//f36fnn5+//7///336ev///5evl49///Xz/+Pn9+/X///z5++/9//r4ff/+fv/33//f9/fv///6/Pn///b5fPn/+fb9/D98+//f3+/r4ff5+///9ff/+v08+//9/f3+efl4/Pn4+//r6fPr09vv+efj///p79+fPl7+//Pr9efn/fP59+/1+/t4+Pn5/Pr5fnn9en59/Xj06/31+f/fX3fnt7/x7efnt+/339e/14+v/+vr7/fPv4ef39+/z38+v5efr48e/31+fX0++/p5+Xl06fD2+/r0/fnw9e3x8+Pv++/l6+f3+/P5/Pv////3+ef///+/Pn757fnt/+vf4+fn149vvx4ef5fX78ffXvv+vv/e/3//318vX2+//nt/+/z14/Pr/++/z8ff3++/f///z9f/+/nnfPn/9fv33+vf4eP33//Xp8f///ePr+fb39/z9++fvv7ffr19fPn/+fr/+vX0++Xv/fPv5efp6fff74e/vv9/f/+3r6/3nt6e32++/nt+3n7fvv49fb99/ffp///d/r7+/vnt8/Pn2++/f7+fr/ff4ffX58/P48efr7///d3t+/vr0f19/15ev////75ffP4efn6e3//d4+/Xz5+ff5fPv8//v9ff35/fb//j6/P5++/v3///X2fPl/e3v3ef/3/Xj5/efr5+3v///9///f9+/j4ffy8/L4fPl+en7///v///++fr8+//z8fPl8/P//2+Pj958fnt/+32f5f/v9vv4++/1/d3/+v//n1fX7+//z+//3f3/+fnt7ff0+3p9/9vv/9v93e3/+fvv7enr9//f5e///+vv4fX/89//+/r88vX7/vv///2+/Xp4efP/1/ffnt+/P4/3748fPr4+//f28vv6fff3y9vb3f1+/r36ev74f/j9f/d//f/8/v///f058//n2++/3f49vT4/3/9/f3/d39/f3+//v9//9ff/n3fPn/9fv3/9vbx8//v0+/v16f3j/e/3+e/j1fP4///n5+ff4/fb7eef75evl89vn9evp3fPr/f9/ff//f2+vf4//D05+/99+fX7++Pr+fPnt8+/t+//b5efb8efv/9efr//v2+/X49vT18/T3/fPnnt7+/3z7+//z0ef77///efr4efr7+/nt7eXn/fXp6en///58ff//Xl3//Pr4efx4+vv//nn2+/fb6ffp9+f3/9vbx8fnn/b4eP///fPv18///5+vn0+f/1//5/Pz7+v56efT6///19vPr5/Pj08ffv9vbx8//nt7en5e3v09/Pz8/X2+/Pn19//n5ef77ffv38eX1+/7x++/vv7ff14ff3/e/z2/fPr0+/3v0+/329fPr5efz9evl///d3X///29en///59vv06fPn7fPn/eX7/3z0+ffl6fPr8/Pr6ePn8/Pv///v4+/r9ffr7eXj7ffr6ef39///3/99vf38efx/Pbn5fPr09/t/+ff3///n1+Pr1+v1/e/r5ef78Pj4+X///ffv3+e/r3ffx7dfp8e3/9efr5///v2+efx8f3///e///3//fnt4fnt3/fXz2++/n4ff348e3/2++/T2/Pn3+/2//fX59vv////t+ennt+//5+vf/+Pn/3f4/f4/Xl09f/z68/nn34f378e3v/38//f6+f///ffr9//31+ffx6ef34fT5///p7+fr7+vnx4/b959vPj39//j37+//z7/f/77///f57ef59fb0/P94eX97ffvv32///r59///29f//79fnn69e3v4efp4fPn9en9/x6ef7+/2+/3t6enX3//3p0+Pr///29vT///r69///+vr4fPv+/e/1/9efr6efx7dfn39///f5++vf19//z5e/nt5//T4++/d7ffz29+v//d///ff//fv+/Pn4/e///+/5ffXz8+/f/9///nt79ff///nt7ef//vv//P1//3/8fX/+vn7///x7///f9/+39ffx+fT9+/p58+//j5fH/38Pv16efx7d/n0+Pv0+//18fLz+Pv/z+/j/+ffx4e3r/d33///f5/X18ff/+vTr6fffvnt4///4evv///z++/f18/P9fT5/fj1/32//Xp+ef37fPn4+Pr39ffv1/+/v+/3x4ffl6efp+ffvv29ff//v9/X0/fb369Pvv1+/57ef/2/z2f1+/X/5++Pr+/3v0/D5///d3X/3/+ffw4f//r06+33///v/9//5+/p7+Pz/f75//9+/d///5fvv5++/v/2//Pv2+/r58/Pr8evv29+/Xvv99/Xz49eXf7///5ef77/D4+/X96/X/z+/vj99/fr+//57/3n4+vr/9//++fnt9vD14evnt4ePnnt+evnt/+fXn5f3//fnnl6+/X3y/vvv5e39//vv//Xvv9///Xv9e/r06efvv36f339//f3nt3+/v3nt4/7x/Pn4//3z8f316e//9ef32++/nt+//dff9+vX4+/x7df17++/x+Pr1fPj9/fn4+vf38e/319///98+/z8/v2/fnt5ff3v//f1+fv5+/vj3+f2++/D3fPv4/Pv1fP4+//189///fPv07++/b1+vP48/Tr++/dff/9vTr6///1+ef58eXv1/Tr3fP/fPv6f/9ffp4++/59//fX/3e///9+vvnt4+/Xv3////v37ef4+Pv6/Xv6///5/vPl8++/3r4efr4+/1+fb3+3vnt5+/9////74evr3///9+efv////n5fX/3+eb15e/34ff///z08/T5+fb4/fr89vL8///t+enx9vnt7///f3z29fj5+ffv+/37+/Pr8/Tr4//j1/ff95/P36ffvv//d//2/vT9+/j3ff1//Xp6fvj7eef//nn06fff5ev3fnn5/ff/nt/ff//1///49+3j3/f4/fj3+/3nt4efn4fPv+/fnt5en34+/ffvv/5+/ffX9+ef///x7f3/fPn3///7+Pr/+vn9ffv9ePr///z4+Xl05///4+ffp7+fX78ff14/P///b3++/2+vPn7/d9efX9ffXp6ff2+3/2f314+fv/r9++/1++f///vvx8f3///t3ffp/3z7/X74+/v3////z++/nt7///r5fffz2++/z6fP0++/2+/r//29vnt7+Pvnt9ffr3+/Xv5ffl7+P17ePr7f/j7fPn9+ft6+ffz39Pz//b6/fD66fff35//5+/Xl6fPn/fff/+ePr6/fr18/b7/f55//j2++/2/f5++/p7+//d/P7+Pz////Xvv/+///71++Xl+e3t3////x8ef34evf/n3////j69ev5++Pr+//t6eef73///f08f//r19ef7ePr0ffn05ef/0+fv9+/PrfX//nn/eP/5+/Xj8///r5+/P/y///4efp4enx8+/j59vTr5fnn/b18////v7evnt///b9///7++/f1+fL68/j5f35/Pr89fTr///4++33/fn389vf4/e/p+ev29P3x9ffz++/2/f//5eXp9vv////9/ff////z4+Pr4ffx9/f///74/f4+/p9e/b/6+vf79eXn3+f0+ef169/X//Xl5/X//f49Pr29efl6effx++/2+/p5/D25/Pn4ff///z07e//35+//15/3nt9/f9/vv/nt9///fPn33/55fffz6fff3+efz99f/v35ffP317ef3/359vv97fPn/+35///b1+/77+//739ff94ef////58ffn0/Xvvf//33+/j/d/Tr///+/ff78/P//2++/t89ff3//n0+fX338+ff316fvv2///16ff309vT18//3+/l9+/36ef////ff////f/++32f//+/fPn99v35+/X///v/8+ff28fPr7++/d//2//19f///z3//ff39fX5/nn2//t+/e/1f/n3+/X///T1++/v/+vv35+P//fnn/+v3/ffw+/r/+vn7ffz5ef15+/z+/3//fnt4fnt+//X0+e/v/189///f3z29fnnt319vj39ff9fPv6fnt9///fnt5en34f/d//9+//3//v1+fnt8++/2+//49vvp/Xp5efv//fnn7/ff4+fr16fff4++/P5f3/7///+/P3+/r17evvvvv14ef/6ffX09fPn29+vv3fXp9+fr6efj7ef////nt+//35/nn4efXv9fTr4/j5+/b17fPv19v//x6enr2+///e/7ffj09f309/vnt8eX3z7++/f5fPr5ev5//n5/Pn7fffy6efj/Xl3+/r4ff0+vtr/e/r5enx9fPn5+/l6+/p5+vf5f///ffz29+v//fnt6///n5e3r6+vv57/Xf///j3+//7///e/Xz5+vn28+vf49vn28/nt///33f3Xy9+/j0//r4+/3v5ffP///5e///fPn0/Xn6ef//nn/Xl7+//r3++/b///X/+fb5fX38/Pr6efT7ef/3+//ffvvv////59+//z7f395/3t+/3n//f/18+//d/P39fPn5ffp8+/r9vv/+ef////j8///98/X/16/nt/ff5++/l7eXl4fPt5fvvx8//7+/7++/19vv8/vr6//fnt9eXp+//35ffl9ePv7/9e///d///77/3t4/v/+/ffX56fffnt8///r/+ef/f9///+e3f3///d///5f/fvv378+X14/fXl9/z7e3n5+/fnt/nnz49vf/9ff56ef98fXn+fX16+v74efz4+/Pnnt7/Pv4+/Xv8////3/+39///p49//ff0+/r0fPv16fPn+fb//2++/ffv/79/1+/d//f//2++/7/++vn7///z8eXv79vPn/+fXp6enr29ff//v9fX38fPj6fXv0+/19v///ePr7/Pvv19f//r8ef72+/Xn9/f7fXn7+P/t9ff/+Pn//z2/fvv6+/b3+//b/5fffnt+//99/33/ff/3//d/X78fX/Xp9ff05//4++/P19vX0///e/z++/38vv3++/r1+/z279efr5fnt7/f3Xl9efb5fPn4ePr++/X///e3v07+/T14fXf7efP5+3z8+//x4efv9+ff08efz08//2f/7/f54++/19en/eP/ff5f/P16ef34/Tr6e35/P0+/z5ev08++/n0///ff////n3+/57/ffnt8/D5/Pr5/Pn//d/317+//d+3f/58ef/n28+Pnnt7f3n3++/vnt4++/ffvvv/+fvv+//x5+fb/9en/ffr4fPr4ev3///1/3nt+/z9ff2+Xz3/d9+vP17+/z/ff5+/v5+vv//16evb///nt3f92//X////16///f3+/Pr5+fT69/f5/Pv+/e///ffw///3///n/e34//T7+//9+eX33+fnt+/f16fX31/ff59efj4ff///v/+efb5+v//f1+vP48/Xp6ffl49/9v357efnt7efvv5+e///38efj7ff4+///+/v/+ef//ffx9f/5+/r5fPr9/368++/d///Xp6ffX0+/v7ff/3///v4fnt//nt+3359//v0+Pv//nt//7++/9f4ef////3++/f15/f99//9++en9f///57+/nn8ev///v8/f17+ffn9/3fnnf4f3///5f336//r0++/18//9efr6ePr3++Pr///f35+//j9///v38fXl8//f19/f3y7ffnt4fX9///f4eX/7/D2+/v////77/fnt///3/3fnt4++/j9efj6efp5+efnt+//efr6+3///e///7e/P1++/l6/fvv28///r3/+32++/j///Xnt5+/z9//D25+/57/Pl7fffv4fPr08efz9ef59fXl/e3f/9++vv08fb89fTr6ff/+fXp5+/0/fj08/334+vX7//P0+/j7ffv///3z6//x/fnz8vPn7////5e///v//j1/9vv7fnnnt/2/e395/3n7/d/n5fT34ev///v4+/x4++/1/fPr9en76/Pn6ef/X////399ff36ef//v19vD16///v4ffz///f4efP58+/Xv////93e///x8//7+ef3z++/fX3//fr1/3z//v8/v//z++/59f3/fPn3///7+Pr6+//j6ffy+Xn1+ef34/Tr8+339+ff5+efd/fn1+Xfvv49f39///d///d3f//X/+fr/+nn9efx7ff75fnt///X3+//19vf7efp4fPl6ev14++/p6e/z1++/n49f///fPv////9+3X/9+v4+319vX5/e3x9enr+///+/Xz06fff/fPv8+/54///p8+fnnl/3//v6//29fXp4+/31++/p7/X7+Pr//Pz5/Pz8ffp3+vj1+/f06fD04ef56efr5+/Pn4fPl4///vnt6++/f9/z/nt9f/3/X3++Xz9/Pv//18efr+/Pn7ef1/d3/1+/vj49Pr54evz4++/1/+fv/5+Xn9eXj4++/n5/ff09vv4+fT4ev19e34+vvp/eef/fnn5/ff/9f3++/b4+/v1/fPv4ev5+fXz16f/9/fn3fX7++Pn4+fvv7efvvv5+fb999+/ffn3///z0fPr09vv+efj1++//7////X/f/3nt7en///17///4+Pr4ffx/Pn///f1/fPr9///++/f/+fb6+/r7ef2//r8/Tr+/b08Pr4/fnt7efp3+vf58+vf9f/r1+efP59ev93ev54//37ef4fnnnt8+//X/+fb4+vP1/fnn/T058+//fvv+3X16+X14/f19fvv4+/15fPv+//n/e///j/eff34fPn+e/r9fTr+/X08ef54+vX79vX/e/T7++/j3++/T2/Pn3/e3l5//f/+//v///x6dfn8fT5++Pr+X3n3+ef/b2f/788vPr/+X7f5++/b59f37+e/nt48/z5+/5ffD34evnt3f/p5/Xz7efn2+fb2++/b55efp4ef38//ff37/fb///+/D1++/f///317///+Pv/+vv//d///7+3f5e3/9/nn38efb99efr16efX2efT75fX58+/9efrz6+/1/Pffp5efb/z2/fvv//nt5+/f/++/Pr///D17efx4ev///78e3r2+/r1+efP/+/1//v6+//3/b4+vL6enP57+nr++/f76//7fPr///X/+vv////r7ff2++/z6/ffz4++/b37evr34efp4ev///b29Pr////nn/7+Pn6+vPr8efr1fT54///ff/X14+vvf3z3+/j4+fr4+/58e3n17f3p8/X39+/57ePr3f//+Pr/+3f9fPn9+/z29v336//4+/54+v/+/Xj7+/v//Pv/9v/fPv29+31+//76+/nt9e/f7+fr6////7efn//+/b///Xv9e/p+/Pn9///29ef4+/Xz//z7efp4f//z+/ff/+//fvv18fTr7f39f/9eef39/fn///b3+P34fnn3/dfnn//f08+//X35///z2+fnt9eX39fnn8+//v59enX6ev38fnnl/fb//Xl6//n2+/7efz0+/3/7en/ffr4f3//9eX9/Pz8/Pr///P5fPn3///7+Pr6////X4ev9+fTr///t5efx4ef4f///5//f/+f3/+e/9fXf////nt/4+vXv2+/33++/Xz2//T2///4+/r///vv7fPn/f/vv8////X//b47+f33///t6ef/+/x+ff/z3///dffx8///9v//z2//r9efr/++n//v1/enp6f/n18//f5+vv4fX/8ff//f//5+/7evx5+/ff5+ef19en3f/59efj4f///+/P/7+efd7fPr8fvX7+/75///nt/ffnt+//r6++/e3X/+efv7//f/+nn4ffnn/v1/fPr9///3++/vvvv4+/f16++/Xz+/fXp///06+/f3y+//32/f33z/ef54efn3+//P5//p6////2++/ffz+/36+Pn9+//9//t+fX2//X28e/p+efl9e/ffz2/+v29/X///f/b4fP/3fPr9e3nt//P8/Xz/9f/5ffH2/Pr1+Xb///f4fPn9ffp0+/b16+//+///9efr6ePr3+/d8++X/z6fnn9vbx7+/ff/+f59efj6ePn///5++/ffvv4ffPz+/T16e/d6fnnfPr9///fnnl4ff////r/+///+/f06+/b28//j38efv9fPv8+vv///d3r4efr4+/d/fX3/f/e/+/3x++/fvv16eX37en1/+ff1/+f75///3/b9fXj9+Xn7fPn3fPr9en739ff94+/1///9+X/f3+/vnt9e/T4/fPr0ff34+vx+/D2f/9/5f336e/18eXv1fPr3+fb5efr4efx7fPl/efl+/398/z5//3//fP5fX/5efr//n5evv0/fn0++/e/ff37evf17///+/9///x79f//3v//eef3fnnnt3x7+//X5+//d+v3++/Pn6/fv8+/Pn4+/d/fnf/ePn/X9ef//Xv9en36ff/7f///59fPl+/fvv19vv94e33//fb9f///nn37e335fTr6///fnn58efP7+/z0+X97e/3///+ff37fPn4+Prfvv07en37e3v8f//b1+vv7/v////x6+v9/////+efr3////2//nt5/dff3/e/d9/Xv6///9f35eP/9/nn/f58efr7///d3fnt+//nt//fnt8+/x/fPn49fPn5+/379fPn4+/n09f3/+/v39ff06evz//P0++/x8///9v9/+fb1fXj3///x7+/z/Xj0+/P3++/n9fnn3/Xf3fX/Xv2+//f1///3/b39/ff5+3n/fP5+/P4efPn3+//b0++/+/4ffX95fPl++v98//d4ffp6efv/fPv2eX18+ef16ePr6ePn8efx7fPr9//d///1/e3/376+/j/9vX3//P35efd5+v/5/b/nt4//Xv/+ef5+/Xl6fPn/fff//X//ff4fff/f/72//v2+/X4/Xv9//j2/fn/8///49ev4evP/7////fnt//nt+f34f//9/3f3fXf4+/x9+/f///p7e///5f336//r0++/z75/Pn07efP/X39+/X1+fb7///Xj79fnt5en34///n1+ffy5enp5d///35+ff3+//X96en///z++/b15fXf7efn6fPn3fP4efp2+vf3///nt3/36/fnfX4/vv2f/nn06fff59Pr/+3v/38ef2fP1/+fb393vXl5e3/ffX/x+/Xz9vf8efTr4efPnnt/9///d///d3f/+vf15+fv19/j9efv5d//f1/fn5evd59vPn3+8++/3fX37/d///5ffX59fPv0+fv4efz5ffPn2++/r1f316ev09fb+///ffx7efv+/fbnt8/Pn2/Pn28/nt+3v/+fb3//3X//+/X5efp6fff/X58ff38vPl6/f/33+/n35+vP0ff0+fvv+fP0/fPnnt+//+///v/57+/r4/ffj7/Pr+vf79/Pz8/Pr4//fXv9efD14+/ff7ef//fX29ff59fPr58fL4f32+/v9////3++/7f3++/5+/336en1++Xl9en08ffl5eXn7enXvv2+/Xv68++/z6ff/2/+/f77fPn2f/v1/Tr3fP3///Xv/fPv5efp6ffff4fnt7f3z16ff////f4/ffXl9+X3///379+/ffb6+/r39vtrfef//v75ev//5ffLz+vfvv4/b2++/5fX48+Pv/fX/3e///9+vvnt4fX9f75fvvv37ef4+Pv6+/3vnt7+f///ffr7////z89+Pn//x8/T5/Pn2fX3++/Pr19ff29///d3399vff/9/n19vf337++/98fX/Xp9ff0f55//j3f4fnn3/fX3fPn/ffr+v/+vvp7efr0+Pr14+fPj3+398fX/39vnt+/f29vnt+//x8+/ffp9/bnt/f376+/f///f337ef16ffe///d3x4/Pn9ff1+fX0+/f/4/3f//b9/vv/nt59vv//t7f/3fvvz5efX9//4++/29/D4fPl+/Pv+/efr7efr8ffx4ff//X14+fX09///fvv4ffv//fn3/dff///49Pn29en739ff93//f/ff3/+v3////vnt9+/Pn/+/j1/fvv07+/X5+/t+/r98/Pv8/Tr+335/Pr/+fr7efj98+/r+/fb8fffz6+vf//1++v30+fb4f///z1+f3t9//d4+/Xz5+fXv6evx7efl/3/4efp06fff9ff5++/f7/3/+/v+/3n9/Xj06ff30++/f3////j9///e/r6ff1/tr/r/enr38/Tr/+Pr9ff5++vn9e3v/+ffv//n4+//7/39efp2+Pr/X73/9f4fff3f/Xl8ffz4/v34ffx6f//35fPv//f3++/p2ffx++///j2//Xfvvf4//v4//f/v///p29e3z/f16ev0+/L3/e/t+//b94e33f///36fff3/d////5/ff1++/3n+/e3309fPn5+/l6fX71fPr8fTr09v/3+/l6/D4ffb///nt4e33f/nt39/T1+/Pn3+8ffz5fff5//efr/+X38fPn5ev59fT17ef4+fb5+//b4fnn9enp+/15f//dffX35eXv4+/fPr1+fnf9v17/3y+/Pv////5+Xf8efXl7//n0+/z0++vPn69fvv7ffr19fPn29+/Pn/+fb7///4fPl+/Pn6++/d4ff36++/P2/fPv5efj4fff/59en/d//2++/z5evx8fP///3Xl4evv0/fn8//Pn69e///ffr/+X/29fXv6/v/d//t/fnv5+/r5fnt////n0+fr9+//f/77///P77f3///57+/369vTr6fffvnt4///x6+ff5fvv//x9///r///r/+31+evp0++/2/3v2f3nt9fnt8e3r29f/nt+ef7+9vb9+/f14ffp///2/3v0fPn//+vn2///n3//z48eXp9fnn29en5///38/X3+/n1+Xb///f4/f/9f4efN7eX18+vj///3//d3/f309/vnt8ePr++/fPv4+f3////j9e3///nnz2/37e/b4/v36efX1+/n4ff/6fvv/++3l8efXl9/f/+v//9/d3eP/9+/3+fn34f378//4+/j7++/Pn4fPn29e/3/+efr/9/3+efX09v/v34ev7+/f9fPn9+/z9v7ffz39+/z38+e/d4ffn4fP///r36/b28/z99vP///1+ef/5d+/17+3555/z+/P0efv4fvv/ff/3X/5/nn09v//58fPn49+Xv5//f555d+///dff/93f357fP7+3X3+vvz4efz6+/Pn9+//4f3z/+efr29fb9+/5ev36ff058+//ffp8ff73f3p/39+/Pn+fb19e34+fn2+31+/X5+/x+/D0///x9/nt///7++vfvvz5+/v8fPr7++/d/d/vj8+/z3+f18+fvv334+vf/+v/4efz29Pn4++/X/+efz+/ff59ef/9/d/z8+/l9///X9/9///+fTr9//n1ff///7+/b7fnt8/fbnt+3nt+//79+/b5+/X///v3+efz37ff1+e/T1fvv1/Pn7+/f///Xvv5/fnl7/X3+/19///r///j36fPr1/Tr///4+/j8+Pn06fvv////ffn35fffvvz4+//+/fnt8f/x+/Pn4ffffr5/v/57+/r6+//x8ffx9ef59ebx++/94++/x5/Pj6ef4/fb5ffPn1//Xnt6/Pr/++/9+vX4+/x7df17++/x+Pr19vX8/Xj5+/X4/ffl5+v1++/r8ff/+/0/fTr7eP33//X39+///x8efp/fPn9efPn/fn34//T97ef31+e/D16en39+338efX07f/v49/3/dfj6+efd7fPr8fvX7+/75//ffz4///1/3nt7en///17///4+Pr6+vPl8+//r5efx8f3x///+/P58/Xz9+3x9efj4ff///v6e3x/3z6/Pn5+evT9++/17++/Xn1fPn2/+3v933ff2///nnt4+/z4+fvv07++/Xf1++/j7+/z++/j6/Pr7ef1f//p9+/718f////3+/Pn6ffx/fn5+/75e//p8++/ffr7///v49///ff0+/r0fPv16enX2/fPn6///eefx4/n1+fnr7/ffx5+/19evn8//b1++/3/++/d///7/+vf9ffx///19f9//fPr6ffff18efp09efr4/Pn0++/X4evr/fP1++/n19//5++/d///X7ef77+//fvvp48fnn5efz3/ffv7+3l6fvPr8++/d/d+Xv//f5efl/++ev///j6/Pr///P5f3/7///+/P3+evj7+//x7+//9vX59v/38P3x5en///n5eP3//f3/ff3f7eP74+/n3/9eef/9///r1+efP98fXz5/vv94///34++/fvvp4/3748ev3//79en/8//9eX9+PTr+ff1+ef4/379+Xl7e3p+/f14+/1++fn1/e///19efz///r29f/9+/d6eXz9ff99/ff/15+vf29//j17++/3++/n1/Pn6evj7++/j08ffv9v3n2+/Pn/++/Xj7ff17/b3++/3z3++/5fPr8/Pr/++vvfPr5+/d4+/7////fvv4ffv//P74ff/y7ff7/ePn/ev4eXz59f//b88v3x9ff28fP/+/t++/v1/Pffp/ff5//Xv6?..." alt="" /> 
+    <!-- Bahagian Imej -->
+    <div class="caliper-image-section">
+        <!-- MASUKKAN KOD BASE64 IMEJ ANDA DALAM SRC DI BAWAH -->
+        <img src="verniercaliper.png" alt="Vernier Caliper" />
     </div>
 
-    <div class="grid-layout">
-        <!-- --- Kotak Data Input --- -->
+    <div class="info-grid">
+        <!-- Kotak Data Input -->
         <div class="content-box data-box">
             <div class="box-header">Data</div>
-            
-            <div class="row">
-                <span class="label-text">Reading : &nbsp;<strong>Main scale</strong></span>
-                <span class="separator">=</span>
-                <input type="number" id="mainScale" class="input-field" value="9.5" step="0.1" oninput="calculate()">
-                <span class="unit">mm</span>
-            </div>
+            <div class="box-content">
+                
+                <div class="input-row">
+                    <span class="label-text">Reading : &nbsp;<strong>Main scale</strong></span>
+                    <span class="equals-sign">=</span>
+                    <input type="number" id="mainScale" class="data-input" value="2.9" step="0.1" oninput="calculate()">
+                    <span class="unit-text">cm</span>
+                </div>
 
-            <div class="row">
-                <span class="label-text">Reading : &nbsp;<strong>Circular scale</strong> (position in line)</span>
-                <span class="separator">=</span>
-                <input type="number" id="circularScale" class="input-field" value="2" step="1" oninput="calculate()">
-                <span class="unit"></span>
-            </div>
+                <div class="input-row">
+                    <span class="label-text">Reading : &nbsp;<strong>Vernier scale</strong> <span class="formula-note">(position in line)</span></span>
+                    <span class="equals-sign">=</span>
+                    <input type="number" id="vernierScale" class="data-input" value="8" step="1" oninput="calculate()">
+                    <span class="unit-text"></span>
+                </div>
 
-            <div class="row">
-                <span class="label-text">Value of smallest division main scale</span>
-                <span class="separator">=</span>
-                <input type="number" id="smallestMainDiv" class="input-field" value="0.5" step="0.01" oninput="calculate()">
-                <span class="unit">mm</span>
-            </div>
+                <div class="input-row">
+                    <span class="label-text">Value of smallest division main scale</span>
+                    <span class="equals-sign">=</span>
+                    <input type="number" id="smallestMainDiv" class="data-input" value="0.1" step="0.01" oninput="calculate()">
+                    <span class="unit-text">cm</span>
+                </div>
 
-            <div class="row">
-                <span class="label-text">No. of small division on circular scale</span>
-                <span class="separator">=</span>
-                <input type="number" id="noCircularDiv" class="input-field" value="50" step="1" oninput="calculate()">
-                <span class="unit"></span>
-            </div>
+                <div class="input-row">
+                    <span class="label-text">No. of small division on vernier scale</span>
+                    <span class="equals-sign">=</span>
+                    <input type="number" id="noVernierDiv" class="data-input" value="20" step="1" oninput="calculate()">
+                    <span class="unit-text"></span>
+                </div>
 
-            <div class="row">
-                <span class="label-text"><strong>Zero error</strong> <span class="italic-note">(if available)</span></span>
-                <span class="separator">=</span>
-                <input type="number" id="zeroError" class="input-field" value="0.03" step="0.01" oninput="calculate()">
-                <span class="unit">mm</span>
+                <div class="input-row">
+                    <span class="label-text"><strong>Zero error</strong> <span class="formula-note">(if available)</span></span>
+                    <span class="equals-sign">=</span>
+                    <input type="number" id="zeroError" class="data-input" value="0.007" step="0.001" oninput="calculate()">
+                    <span class="unit-text">cm</span>
+                </div>
+
             </div>
         </div>
 
-        <!-- --- Kotak Nota --- -->
+        <!-- Kotak Nota -->
         <div class="content-box note-box">
-            <div class="box-header" style="border:none; padding:0 0 5px 0;">Note :</div>
-            <ol>
-                <li>Main Scale - reading on the main scale shows</li>
-                <li>Circular Scale - reading on the circular scale that is in line with the main scale</li>
-                <li>Zero error - zero mark of the vernier scale does not coincide with the zero mark of the main scale</li>
-                <li>Obtained reading = Main Scale + Vernier Scale</li>
-                <li>True reading = Obtained reading - (Zero error)</li>
-            </ol>
+            <div class="box-header">Note :</div>
+            <div class="box-content">
+                <ol>
+                    <li>Main Scale - reading on the main scale just before the zero mark on the Vernier scale</li>
+                    <li>Vernier Scale - reading on the Vernier scale that exactly in line with the main scale</li>
+                    <li>Zero error - zero mark of the vernier scale does not coincide with the zero mark of the main scale</li>
+                    <li>Obtained reading = Main Scale + Vernier Scale</li>
+                    <li>True reading = Obtained reading - (Zero error)</li>
+                </ol>
+            </div>
         </div>
     </div>
 
-    <!-- --- Kotak Keputusan (Lebar Penuh) --- -->
-    <div class="content-box result-box">
+    <!-- Kotak Keputusan Penuh Lebar -->
+    <div class="content-box final-result-section">
         <div class="box-header">Result</div>
-        
-        <div class="row">
-            <span class="label-text">OBTAINED READING</span>
-            <span class="separator">=</span>
-            <input type="text" id="obtainedReading" class="output-field" readonly value="9.52">
-            <span class="unit">mm</span>
-        </div>
+        <div class="box-content">
+            
+            <div class="input-row result-row">
+                <span class="label-text"><strong>OBTAINED READING</strong></span>
+                <span class="equals-sign">=</span>
+                <input type="text" id="obtainedReading" class="data-input result-output" readonly value="2.940">
+                <span class="unit-text">cm</span>
+            </div>
 
-        <div class="row">
-            <span class="label-text">TRUE READING (with zero error)</span>
-            <span class="separator">=</span>
-            <input type="text" id="trueReading" class="output-field" readonly value="9.49">
-            <span class="unit">mm</span>
+            <div class="input-row result-row">
+                <span class="label-text"><strong>TRUE READING</strong> <span class="formula-note">(with zero error)</span></span>
+                <span class="equals-sign">=</span>
+                <input type="text" id="trueReading" class="data-input result-output" readonly value="2.933">
+                <span class="unit-text">cm</span>
+            </div>
+
         </div>
     </div>
 
-    <!-- --- Pengaki --- -->
-    <div class="footer-legend">
-        *Fill data in <div class="color-box"></div>
+    <!-- Petunjuk Pengaki -->
+    <div class="footer-guide">
+        *Fill data in <div class="color-legend"></div>
     </div>
 
 </div>
 
 <script>
-    /* --- FUNGSI JAVASCRIPT --- */
     function calculate() {
-        // 1. Ambil nilai daripada input (dalam mm)
         const mainScale = parseFloat(document.getElementById('mainScale').value) || 0;
-        const circularPos = parseFloat(document.getElementById('circularScale').value) || 0;
+        const vernierPos = parseFloat(document.getElementById('vernierScale').value) || 0;
         const smallestMainDiv = parseFloat(document.getElementById('smallestMainDiv').value) || 0;
-        const noCircularDiv = parseFloat(document.getElementById('noCircularDiv').value) || 1; // Elak bahagi 0
+        const noVernierDiv = parseFloat(document.getElementById('noVernierDiv').value) || 1;
         const zeroError = parseFloat(document.getElementById('zeroError').value) || 0;
 
-        // 2. Kira 'Least Count' (Senggatan Terkecil Pekeliling)
-        const leastCount = smallestMainDiv / noCircularDiv;
+        const leastCount = smallestMainDiv / noVernierDiv;
+        const vernierReading = vernierPos * leastCount;
+        const obtainedReading = mainScale + vernierReading;
+        const trueReading = obtainedReading - zeroError;
 
-        // 3. Kira Bacaan Skala Pekeliling (Circular Scale Reading) dalam mm
-        const circularReading = circularPos * leastCount;
-
-        // 4. Kira OBTAINED READING dalam mm
-        const obtainedReadingMm = mainScale + circularReading;
-
-        // 5. Kira TRUE READING dalam mm
-        const trueReadingMm = obtainedReadingMm - zeroError;
-
-        // 6. Set nilai keputusan
-        const obtainedReadingCm = obtainedReadingMm;
-        const trueReadingCm = trueReadingMm;
-
-        // 7. Paparkan keputusan, diformat kepada 2 tempat perpuluhan
-        document.getElementById('obtainedReading').value = obtainedReadingCm.toFixed(2);
-        document.getElementById('trueReading').value = trueReadingCm.toFixed(2);
+        document.getElementById('obtainedReading').value = obtainedReading.toFixed(3);
+        document.getElementById('trueReading').value = trueReading.toFixed(3);
     }
 
-    // Jalankan pengiraan sekali semasa halaman dimuat untuk set nilai awal
     window.onload = calculate;
 </script>
 
