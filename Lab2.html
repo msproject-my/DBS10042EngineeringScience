@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analisis Labwork Fizik - Prinsip Archimedes & Daya Apungan</title>
+    <title>PRACTICAL WORK 2 - ARCHIMEDES PRINCIPLE</title>
     <style>
         :root {
             --primary: #0284c7;
@@ -32,6 +32,19 @@
             color: var(--text);
             padding: 24px;
             line-height: 1.5;
+        }
+
+        /* --- MENYEMBUNYIKAN ANAK PANAH TAMBAH/TOLAK PADA INPUT --- */
+        /* Untuk Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Untuk Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
         }
 
         .container {
@@ -154,6 +167,7 @@
         .btn-group {
             display: flex;
             gap: 10px;
+            align-items: center;
         }
 
         .btn {
@@ -162,7 +176,20 @@
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
             transition: background 0.2s;
+        }
+
+        .btn-home {
+            background: #2563eb;
+            color: white;
+        }
+        .btn-home:hover {
+            background: #1d4ed8;
         }
 
         .btn-primary { background: var(--primary); color: white; }
@@ -176,10 +203,13 @@
 <div class="container">
     <header>
         <div>
-            <h1>Data Analysis Labwork</h1>
-            <div class="subtitle">Modul Pengiraan Prinsip Archimedes & Daya Apungan (Buoyant Force)</div>
+            <h1>PRACTICAL WORK 2</h1>
+            <h1>ARCHIMEDES PRINCIPLE</h1>
+            <div class="subtitle">Labwork Data Analysis</div>
         </div>
         <div class="btn-group">
+            <!-- BUTANG HOME -->
+            <a href="index.html" class="btn btn-home">🏠 Laman Utama</a>
             <button class="btn btn-secondary" onclick="resetToZero()">Reset (0)</button>
             <button class="btn btn-primary" onclick="window.print()">Cetak / Simpan PDF</button>
         </div>
@@ -188,7 +218,7 @@
     <!-- TOP PARAMETER -->
     <div class="top-setting">
         <label for="mEmpty"><strong>Mass of empty beaker, m<sub>empty</sub> (g) =</strong></label>
-        <input type="number" id="mEmpty" class="input-yellow" value="112.3" step="0.1" oninput="calculateAll()">
+        <input type="number" id="mEmpty" class="input-yellow" value="0" step="0.1" oninput="calculateAll()">
         <span style="font-size: 0.85rem; color: #64748b; margin-left: auto;">Nilai Tarikan Graviti, <i>g</i> = 9.81 m/s²</span>
     </div>
 
@@ -225,44 +255,44 @@
                     <!-- WOOD -->
                     <tr>
                         <td><strong>Wood</strong></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="w1_t1" value="0.5" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="w1_t2" value="0.6" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="w1_avg1">0.55</td>
+                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="w1_t1" value="0" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="w1_t2" value="0" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="w1_avg1">0</td>
                         <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="w1_w_t1" value="0" oninput="calculateAll()"></td>
                         <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="w1_w_t2" value="0" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="w1_avg2">0.00</td>
-                        <td><input type="number" step="0.1" class="cell-input bg-blue-input" id="w1_b_t1" value="166.6" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.1" class="cell-input bg-peach-input" id="w1_b_t2" value="171" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="w1_b_avg">168.80</td>
-                        <td class="calc-value" id="w1_md">56.50</td>
+                        <td class="calc-value" id="w1_avg2">0</td>
+                        <td><input type="number" step="0.1" class="cell-input bg-blue-input" id="w1_b_t1" value="0" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.1" class="cell-input bg-peach-input" id="w1_b_t2" value="0" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="w1_b_avg">0</td>
+                        <td class="calc-value" id="w1_md">0</td>
                     </tr>
                     <!-- PLASTIC -->
                     <tr>
                         <td><strong>Plastic</strong></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="p1_t1" value="1.6" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="p1_t2" value="1.6" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="p1_avg1">1.60</td>
-                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="p1_w_t1" value="0.25" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="p1_w_t2" value="0.3" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="p1_avg2">0.28</td>
-                        <td><input type="number" step="0.1" class="cell-input bg-blue-input" id="p1_b_t1" value="254.4" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.1" class="cell-input bg-peach-input" id="p1_b_t2" value="246.4" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="p1_b_avg">250.40</td>
-                        <td class="calc-value" id="p1_md">138.10</td>
+                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="p1_t1" value="0" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="p1_t2" value="0" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="p1_avg1">0</td>
+                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="p1_w_t1" value="0" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="p1_w_t2" value="0" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="p1_avg2">0</td>
+                        <td><input type="number" step="0.1" class="cell-input bg-blue-input" id="p1_b_t1" value="0" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.1" class="cell-input bg-peach-input" id="p1_b_t2" value="0" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="p1_b_avg">0</td>
+                        <td class="calc-value" id="p1_md">0</td>
                     </tr>
                     <!-- METAL -->
                     <tr>
                         <td><strong>Metal</strong></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="m1_t1" value="3.5" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="m1_t2" value="3.5" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="m1_avg1">3.50</td>
-                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="m1_w_t1" value="2.2" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="m1_w_t2" value="2.2" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="m1_avg2">2.20</td>
-                        <td><input type="number" step="0.1" class="cell-input bg-blue-input" id="m1_b_t1" value="248.0" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.1" class="cell-input bg-peach-input" id="m1_b_t2" value="247.9" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="m1_b_avg">247.95</td>
-                        <td class="calc-value" id="m1_md">135.65</td>
+                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="m1_t1" value="0" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="m1_t2" value="0" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="m1_avg1">0</td>
+                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="m1_w_t1" value="0" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="m1_w_t2" value="0" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="m1_avg2">0</td>
+                        <td><input type="number" step="0.1" class="cell-input bg-blue-input" id="m1_b_t1" value="0" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.1" class="cell-input bg-peach-input" id="m1_b_t2" value="0" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="m1_b_avg">0</td>
+                        <td class="calc-value" id="m1_md">0</td>
                     </tr>
                 </tbody>
             </table>
@@ -285,21 +315,21 @@
                 <tbody>
                     <tr>
                         <td><strong>Wood</strong></td>
-                        <td class="calc-value" id="w1_wd">0.55</td>
-                        <td class="calc-value" id="w1_fb">0.55</td>
-                        <td class="calc-value" id="w1_err">0.00%</td>
+                        <td class="calc-value" id="w1_wd">0</td>
+                        <td class="calc-value" id="w1_fb">0</td>
+                        <td class="calc-value" id="w1_err">0%</td>
                     </tr>
                     <tr>
                         <td><strong>Plastic</strong></td>
-                        <td class="calc-value" id="p1_wd">1.35</td>
-                        <td class="calc-value" id="p1_fb">1.32</td>
-                        <td class="calc-value" id="p1_err">2.27%</td>
+                        <td class="calc-value" id="p1_wd">0</td>
+                        <td class="calc-value" id="p1_fb">0</td>
+                        <td class="calc-value" id="p1_err">0%</td>
                     </tr>
                     <tr>
                         <td><strong>Metal</strong></td>
-                        <td class="calc-value" id="m1_wd">1.33</td>
-                        <td class="calc-value" id="m1_fb">1.30</td>
-                        <td class="calc-value" id="m1_err">2.31%</td>
+                        <td class="calc-value" id="m1_wd">0</td>
+                        <td class="calc-value" id="m1_fb">0</td>
+                        <td class="calc-value" id="m1_err">0%</td>
                     </tr>
                 </tbody>
             </table>

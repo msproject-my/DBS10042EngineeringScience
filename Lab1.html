@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analisis Labwork Fizik - Ticker Tape Analysis</title>
+    <title>PRACTICAL WORK 1 - LINEAR MOTION</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -31,6 +31,19 @@
             color: var(--text);
             padding: 24px;
             line-height: 1.5;
+        }
+
+        /* --- MENYEMBUNYIKAN ANAK PANAH TAMBAH/TOLAK PADA INPUT --- */
+        /* Untuk Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Untuk Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
         }
 
         .container {
@@ -183,6 +196,7 @@
             display: flex;
             gap: 10px;
             margin-top: 10px;
+            align-items: center;
         }
 
         .btn {
@@ -191,7 +205,20 @@
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
             transition: background 0.2s;
+        }
+
+        .btn-home {
+            background: #0284c7;
+            color: white;
+        }
+        .btn-home:hover {
+            background: #0369a1;
         }
 
         .btn-primary {
@@ -216,10 +243,13 @@
 <div class="container">
     <header>
         <div>
-            <h1>Data Analysis Labwork</h1>
-            <div class="subtitle">Modul Pengiraan Jalur Ticker Timer & Eksperimen Troli</div>
+            <h1>PRACTICAL WORK 1</h1>
+            <h1>LINEAR MOTION</h1>
+            <div class="subtitle">Labwork Data Analysis</div>
         </div>
         <div class="btn-group">
+            <!-- BUTANG HOME -->
+            <a href="index.html" class="btn btn-home">🏠 Laman Utama</a>
             <button class="btn btn-secondary" onclick="resetToZero()">Reset (0)</button>
             <button class="btn btn-primary" onclick="window.print()">Cetak / Simpan PDF</button>
         </div>
@@ -235,7 +265,7 @@
                     <tr>
                         <td style="width: 65%;"><strong>Bilangan Jalur 10-Teks (Number of 10 ticks strip)</strong></td>
                         <td>
-                            <input type="number" id="numStrips" class="input-yellow" value="6" min="0" max="10" oninput="calculateAll()">
+                            <input type="number" id="numStrips" class="input-yellow" value="0" min="0" max="10" oninput="calculateAll()">
                         </td>
                     </tr>
                 </table>
@@ -243,12 +273,12 @@
                 <div style="margin-top: 15px;">
                     <label style="font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; display: block;">Panjang Setiap Jalur (cm):</label>
                     <div class="strip-grid">
-                        <div class="strip-item"><label>Strip 1</label><input type="number" step="0.1" id="s1" class="input-yellow strip-input" value="5" oninput="calculateAll()"></div>
-                        <div class="strip-item"><label>Strip 2</label><input type="number" step="0.1" id="s2" class="input-yellow strip-input" value="11.5" oninput="calculateAll()"></div>
-                        <div class="strip-item"><label>Strip 3</label><input type="number" step="0.1" id="s3" class="input-yellow strip-input" value="17.7" oninput="calculateAll()"></div>
-                        <div class="strip-item"><label>Strip 4</label><input type="number" step="0.1" id="s4" class="input-yellow strip-input" value="24.1" oninput="calculateAll()"></div>
-                        <div class="strip-item"><label>Strip 5</label><input type="number" step="0.1" id="s5" class="input-yellow strip-input" value="30" oninput="calculateAll()"></div>
-                        <div class="strip-item"><label>Strip 6</label><input type="number" step="0.1" id="s6" class="input-yellow strip-input" value="36.3" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 1</label><input type="number" step="0.1" id="s1" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 2</label><input type="number" step="0.1" id="s2" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 3</label><input type="number" step="0.1" id="s3" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 4</label><input type="number" step="0.1" id="s4" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 5</label><input type="number" step="0.1" id="s5" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 6</label><input type="number" step="0.1" id="s6" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
                         <div class="strip-item"><label>Strip 7</label><input type="number" step="0.1" id="s7" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
                         <div class="strip-item"><label>Strip 8</label><input type="number" step="0.1" id="s8" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
                         <div class="strip-item"><label>Strip 9</label><input type="number" step="0.1" id="s9" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
@@ -258,7 +288,7 @@
 
                 <div class="total-box">
                     <span>TOTAL DISPLACEMENT:</span>
-                    <span id="totalDisplacementDisp" style="font-size: 1.2rem;">124.60 cm</span>
+                    <span id="totalDisplacementDisp" style="font-size: 1.2rem;">0 cm</span>
                 </div>
             </div>
 
@@ -275,46 +305,46 @@
                     <tbody>
                         <tr>
                             <td>Total time from 1st tick to last tick</td>
-                            <td colspan="2" class="calculated-val" id="totalTimeVal">1.20 s</td>
+                            <td colspan="2" class="calculated-val" id="totalTimeVal">0 s</td>
                         </tr>
                         <tr>
                             <td>Total displacement of the trolley</td>
-                            <td class="calculated-val" id="dispCm">124.60</td>
-                            <td class="calculated-val" id="dispM">1.246</td>
+                            <td class="calculated-val" id="dispCm">0</td>
+                            <td class="calculated-val" id="dispM">0</td>
                         </tr>
                         <tr>
                             <td>Length of the 1st strip</td>
-                            <td class="calculated-val" id="firstCm">5.00</td>
-                            <td class="calculated-val" id="firstM">0.050</td>
+                            <td class="calculated-val" id="firstCm">0</td>
+                            <td class="calculated-val" id="firstM">0</td>
                         </tr>
                         <tr>
                             <td>Length of the last strip</td>
-                            <td class="calculated-val" id="lastCm">36.30</td>
-                            <td class="calculated-val" id="lastM">0.363</td>
+                            <td class="calculated-val" id="lastCm">0</td>
+                            <td class="calculated-val" id="lastM">0</td>
                         </tr>
                         <tr>
                             <td>Average velocity of the trolley</td>
-                            <td class="calculated-val" id="avgVelCm">103.83 cm/s</td>
-                            <td class="calculated-val" id="avgVelM">1.04 m/s</td>
+                            <td class="calculated-val" id="avgVelCm">0 cm/s</td>
+                            <td class="calculated-val" id="avgVelM">0 m/s</td>
                         </tr>
                         <tr>
                             <td>Initial velocity, <i>u</i></td>
-                            <td class="calculated-val" id="uCm">25.00 cm/s</td>
-                            <td class="calculated-val" id="uM">0.25 m/s</td>
+                            <td class="calculated-val" id="uCm">0 cm/s</td>
+                            <td class="calculated-val" id="uM">0 m/s</td>
                         </tr>
                         <tr>
                             <td>Final velocity, <i>v</i></td>
-                            <td class="calculated-val" id="vCm">181.50 cm/s</td>
-                            <td class="calculated-val" id="vM">1.82 m/s</td>
+                            <td class="calculated-val" id="vCm">0 cm/s</td>
+                            <td class="calculated-val" id="vM">0 m/s</td>
                         </tr>
                         <tr>
                             <td>Time for acceleration, <i>t</i></td>
-                            <td colspan="2" class="calculated-val" id="accTime">1.00 s</td>
+                            <td colspan="2" class="calculated-val" id="accTime">0 s</td>
                         </tr>
                         <tr>
                             <td><strong>Acceleration, <i>a</i></strong></td>
-                            <td class="calculated-val" id="accCm" style="font-weight: bold; color: #b91c1c;">156.500 cm/s²</td>
-                            <td class="calculated-val" id="accM" style="font-weight: bold; color: #b91c1c;">1.565 m/s²</td>
+                            <td class="calculated-val" id="accCm" style="font-weight: bold; color: #b91c1c;">0 cm/s²</td>
+                            <td class="calculated-val" id="accM" style="font-weight: bold; color: #b91c1c;">0 m/s²</td>
                         </tr>
                     </tbody>
                 </table>
@@ -351,7 +381,7 @@
                 labels: ['Strip 1', 'Strip 2', 'Strip 3', 'Strip 4', 'Strip 5', 'Strip 6', 'Strip 7', 'Strip 8', 'Strip 9', 'Strip 10'],
                 datasets: [{
                     label: 'Length (cm)',
-                    data: [5, 11.5, 17.7, 24.1, 30, 36.3, 0, 0, 0, 0],
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     backgroundColor: '#c00000',
                     borderColor: '#800000',
                     borderWidth: 1,
