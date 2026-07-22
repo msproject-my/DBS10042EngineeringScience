@@ -183,6 +183,7 @@
             display: flex;
             gap: 10px;
             margin-top: 10px;
+            align-items: center;
         }
 
         .btn {
@@ -191,7 +192,20 @@
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
             transition: background 0.2s;
+        }
+
+        .btn-home {
+            background: #0284c7;
+            color: white;
+        }
+        .btn-home:hover {
+            background: #0369a1;
         }
 
         .btn-primary {
@@ -220,6 +234,8 @@
             <div class="subtitle">Modul Pengiraan Jalur Ticker Timer & Eksperimen Troli</div>
         </div>
         <div class="btn-group">
+            <!-- BUTANG HOME -->
+            <a href="index.html" class="btn btn-home">🏠 Laman Utama</a>
             <button class="btn btn-secondary" onclick="resetToZero()">Reset (0)</button>
             <button class="btn btn-primary" onclick="window.print()">Cetak / Simpan PDF</button>
         </div>
