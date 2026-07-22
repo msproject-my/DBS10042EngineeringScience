@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRACTICAL WORK 1</title>
-    <title>LINEAR MOTION</title>
+    <title>PRACTICAL WORK 1 - LINEAR MOTION</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -32,6 +31,19 @@
             color: var(--text);
             padding: 24px;
             line-height: 1.5;
+        }
+
+        /* --- MENYEMBUNYIKAN ANAK PANAH TAMBAH/TOLAK PADA INPUT --- */
+        /* Untuk Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Untuk Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
         }
 
         .container {
@@ -253,7 +265,7 @@
                     <tr>
                         <td style="width: 65%;"><strong>Bilangan Jalur 10-Teks (Number of 10 ticks strip)</strong></td>
                         <td>
-                            <input type="number" id="numStrips" class="input-yellow" value="6" min="0" max="10" oninput="calculateAll()">
+                            <input type="number" id="numStrips" class="input-yellow" value="0" min="0" max="10" oninput="calculateAll()">
                         </td>
                     </tr>
                 </table>
