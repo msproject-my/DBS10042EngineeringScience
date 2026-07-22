@@ -18,6 +18,19 @@
             box-sizing: border-box;
         }
 
+        /* --- MENYEMBUNYIKAN ANAK PANAH TAMBAH/TOLAK PADA INPUT --- */
+        /* Untuk Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Untuk Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
         /* Bekas Utama Halaman */
         .main-wrapper {
             background-color: #ffffff;
@@ -67,9 +80,9 @@
         }
 
         .caliper-image-section img {
-            max-width: 75%;     /* Boleh tukar ke 60% jika nak lebih kecil */
+            max-width: 75%;
             width: 100%;
-            max-height: 220px;   /* Mengelakkan imej terpotong/terlalu tinggi */
+            max-height: 220px;
             height: auto;
             object-fit: contain;
             display: block;
@@ -231,7 +244,6 @@
 
     <!-- Bahagian Imej -->
     <div class="caliper-image-section">
-        <!-- MASUKKAN KOD BASE64 IMEJ ANDA DALAM SRC DI BAWAH -->
         <img src="verniercaliper.png" alt="Vernier Caliper" />
     </div>
 
