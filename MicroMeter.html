@@ -8,13 +8,26 @@
         /* --- GAYA CSS --- */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4e8e1; /* Warna latar belakang lembut seperti dalam gambar */
+            background-color: #f4e8e1; /* Warna latar belakang lembut */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px 0;
+        }
+
+        /* --- MENYEMBUNYIKAN ANAK PANAH TAMBAH/TOLAK PADA INPUT --- */
+        /* Untuk Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Untuk Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
         }
 
         .container {
@@ -54,7 +67,7 @@
             margin-bottom: 30px;
         }
 
-        /* Ruangan untuk Imej (Dilaraskan supaya imej kecil & tidak terpotong) */
+        /* Ruangan untuk Imej */
         .image-placeholder {
             width: 100%;
             height: auto;
@@ -71,11 +84,11 @@
         }
 
         .image-placeholder img {
-            max-width: 70%;       /* Mengecilkan saiz lebar imej */
-            max-height: 200px;     /* Membataskan tinggi imej */
+            max-width: 70%;
+            max-height: 200px;
             width: auto;
             height: auto;
-            object-fit: contain;   /* Memastikan imej tidak terpotong */
+            object-fit: contain;
             display: block;
             margin: 0 auto;
         }
@@ -121,7 +134,7 @@
 
         .label-text strong {
             display: inline-block;
-            width: 100px; /* Alatan teks label utama */
+            width: 100px;
         }
 
         .italic-note {
@@ -139,7 +152,7 @@
         .input-field {
             width: 100%;
             border: 1px solid #333;
-            background-color: #ffff00; /* Warna kuning input */
+            background-color: #ffff00;
             padding: 4px;
             font-size: 13px;
             text-align: center;
@@ -155,7 +168,7 @@
         .output-field {
             width: 100%;
             border: 1px solid #333;
-            background-color: #f0f0f0; /* Kelabu muda untuk keputusan */
+            background-color: #f0f0f0;
             padding: 4px;
             font-size: 13px;
             text-align: center;
@@ -216,7 +229,6 @@
 
     <!-- --- Ruangan Imej --- -->
     <div class="image-placeholder">
-         <!-- Anda boleh guna nama fail imej terus seperti src="micrometer.png" -->
          <img src="micrometer.png" alt="Micrometer Screw Gauge" /> 
     </div>
 
@@ -228,7 +240,7 @@
             <div class="row">
                 <span class="label-text">Reading : &nbsp;<strong>Main scale</strong></span>
                 <span class="separator">=</span>
-                <input type="number" id="mainScale" class="input-field" value="9.5" step="0.1" oninput="calculate()">
+                <input type="number" id="mainScale" class="input-field" value="0" step="0.1" oninput="calculate()">
                 <span class="unit">mm</span>
             </div>
 
@@ -242,21 +254,21 @@
             <div class="row">
                 <span class="label-text">Value of smallest division main scale</span>
                 <span class="separator">=</span>
-                <input type="number" id="smallestMainDiv" class="input-field" value="0.5" step="0.01" oninput="calculate()">
+                <input type="number" id="smallestMainDiv" class="input-field" value="0" step="0.01" oninput="calculate()">
                 <span class="unit">mm</span>
             </div>
 
             <div class="row">
                 <span class="label-text">No. of small division on circular scale</span>
                 <span class="separator">=</span>
-                <input type="number" id="noCircularDiv" class="input-field" value="50" step="1" oninput="calculate()">
+                <input type="number" id="noCircularDiv" class="input-field" value="0" step="1" oninput="calculate()">
                 <span class="unit"></span>
             </div>
 
             <div class="row">
                 <span class="label-text"><strong>Zero error</strong> <span class="italic-note">(if available)</span></span>
                 <span class="separator">=</span>
-                <input type="number" id="zeroError" class="input-field" value="0.03" step="0.01" oninput="calculate()">
+                <input type="number" id="zeroError" class="input-field" value="0" step="0.01" oninput="calculate()">
                 <span class="unit">mm</span>
             </div>
         </div>
@@ -281,14 +293,14 @@
         <div class="row">
             <span class="label-text">OBTAINED READING</span>
             <span class="separator">=</span>
-            <input type="text" id="obtainedReading" class="output-field" readonly value="9.52">
+            <input type="text" id="obtainedReading" class="output-field" readonly value="0">
             <span class="unit">mm</span>
         </div>
 
         <div class="row">
             <span class="label-text">TRUE READING (with zero error)</span>
             <span class="separator">=</span>
-            <input type="text" id="trueReading" class="output-field" readonly value="9.49">
+            <input type="text" id="trueReading" class="output-field" readonly value="0">
             <span class="unit">mm</span>
         </div>
     </div>
@@ -303,35 +315,21 @@
 <script>
     /* --- FUNGSI JAVASCRIPT --- */
     function calculate() {
-        // 1. Ambil nilai daripada input (dalam mm)
         const mainScale = parseFloat(document.getElementById('mainScale').value) || 0;
         const circularPos = parseFloat(document.getElementById('circularScale').value) || 0;
         const smallestMainDiv = parseFloat(document.getElementById('smallestMainDiv').value) || 0;
-        const noCircularDiv = parseFloat(document.getElementById('noCircularDiv').value) || 1; // Elak bahagi 0
+        const noCircularDiv = parseFloat(document.getElementById('noCircularDiv').value) || 1;
         const zeroError = parseFloat(document.getElementById('zeroError').value) || 0;
 
-        // 2. Kira 'Least Count' (Senggatan Terkecil Pekeliling)
         const leastCount = smallestMainDiv / noCircularDiv;
-
-        // 3. Kira Bacaan Skala Pekeliling (Circular Scale Reading) dalam mm
         const circularReading = circularPos * leastCount;
-
-        // 4. Kira OBTAINED READING dalam mm
         const obtainedReadingMm = mainScale + circularReading;
-
-        // 5. Kira TRUE READING dalam mm
         const trueReadingMm = obtainedReadingMm - zeroError;
 
-        // 6. Set nilai keputusan
-        const obtainedReadingCm = obtainedReadingMm;
-        const trueReadingCm = trueReadingMm;
-
-        // 7. Paparkan keputusan, diformat kepada 2 tempat perpuluhan
-        document.getElementById('obtainedReading').value = obtainedReadingCm.toFixed(2);
-        document.getElementById('trueReading').value = trueReadingCm.toFixed(2);
+        document.getElementById('obtainedReading').value = obtainedReadingMm.toFixed(2);
+        document.getElementById('trueReading').value = trueReadingMm.toFixed(2);
     }
 
-    // Jalankan pengiraan sekali semasa halaman dimuat untuk set nilai awal
     window.onload = calculate;
 </script>
 
