@@ -237,19 +237,19 @@
                     <td class="text-left">Styrofoam cup, <i>m<sub>1</sub></i></td>
                     <td><input type="number" step="0.1" class="input-yellow" id="m1_t1" value="3.8" oninput="calculateAll()"></td>
                     <td><input type="number" step="0.1" class="input-yellow" id="m1_t2" value="4.2" oninput="calculateAll()"></td>
-                    <td class="calc-value" id="m1_avg">4.00</td>
+                    <td class="calc-value" id="m1_avg">0</td>
                 </tr>
                 <tr>
                     <td class="text-left">Styrofoam cup with 150ml tap water, <i>m<sub>2</sub></i></td>
                     <td><input type="number" step="0.1" class="input-yellow" id="m2_t1" value="153.1" oninput="calculateAll()"></td>
                     <td><input type="number" step="0.1" class="input-yellow" id="m2_t2" value="157.1" oninput="calculateAll()"></td>
-                    <td class="calc-value" id="m2_avg">155.10</td>
+                    <td class="calc-value" id="m2_avg">0</td>
                 </tr>
                 <tr>
                     <td class="text-left">Styrofoam cup with 300ml mixture water, <i>m<sub>3</sub></i> (150ml tap water + 150ml hot water)</td>
                     <td><input type="number" step="0.1" class="input-yellow" id="m3_t1" value="293.0" oninput="calculateAll()"></td>
                     <td><input type="number" step="0.1" class="input-yellow" id="m3_t2" value="305.9" oninput="calculateAll()"></td>
-                    <td class="calc-value" id="m3_avg">299.45</td>
+                    <td class="calc-value" id="m3_avg">0</td>
                 </tr>
             </tbody>
         </table>
@@ -276,19 +276,19 @@
                     <td class="text-left">Tap water, <i>T<sub>1</sub></i></td>
                     <td><input type="number" step="0.1" class="input-yellow" id="t1_t1" value="22.4" oninput="calculateAll()"></td>
                     <td><input type="number" step="0.1" class="input-yellow" id="t1_t2" value="22.8" oninput="calculateAll()"></td>
-                    <td class="calc-value" id="t1_avg">22.60</td>
+                    <td class="calc-value" id="t1_avg">0</td>
                 </tr>
                 <tr>
                     <td class="text-left">Hot water, <i>T<sub>2</sub></i></td>
                     <td><input type="number" step="0.1" class="input-yellow" id="t2_t1" value="84.4" oninput="calculateAll()"></td>
                     <td><input type="number" step="0.1" class="input-yellow" id="t2_t2" value="81.3" oninput="calculateAll()"></td>
-                    <td class="calc-value" id="t2_avg">82.85</td>
+                    <td class="calc-value" id="t2_avg">0</td>
                 </tr>
                 <tr>
                     <td class="text-left">The mixture waters, <i>T<sub>final</sub></i> (150ml tap water + 150ml hot water)</td>
                     <td><input type="number" step="0.1" class="input-yellow" id="tf_t1" value="51.6" oninput="calculateAll()"></td>
                     <td><input type="number" step="0.1" class="input-yellow" id="tf_t2" value="51.3" oninput="calculateAll()"></td>
-                    <td class="calc-value" id="tf_avg">51.45</td>
+                    <td class="calc-value" id="tf_avg">0</td>
                 </tr>
             </tbody>
         </table>
@@ -302,17 +302,17 @@
             <tbody>
                 <tr>
                     <td class="text-left" style="width: 65%;"><strong>Mass of tap water = <i>m<sub>cold</sub> = m<sub>2</sub> - m<sub>1</sub></i></strong></td>
-                    <td class="calc-value" style="width: 20%;" id="mColdVal">151.10</td>
+                    <td class="calc-value" style="width: 20%;" id="mColdVal">0</td>
                     <td style="width: 15%;">g</td>
                 </tr>
                 <tr>
                     <td class="text-left"><strong>Mass of hot water = <i>m<sub>hot</sub> = m<sub>3</sub> - m<sub>2</sub></i></strong></td>
-                    <td class="calc-value" id="mHotVal">144.35</td>
+                    <td class="calc-value" id="mHotVal">0</td>
                     <td>g</td>
                 </tr>
                 <tr>
                     <td class="text-left"><strong>Final temperature of mixture water, <i>T<sub>final</sub></i> (from experiment)</strong></td>
-                    <td class="calc-value" id="tFinalExpVal">51.45</td>
+                    <td class="calc-value" id="tFinalExpVal">0</td>
                     <td>°C</td>
                 </tr>
                 <tr>
@@ -325,7 +325,7 @@
                             <i>m<sub>1</sub> · c<sub>1</sub> · (θ<sub>f</sub> - θ<sub>1</sub>) + m<sub>2</sub> · c<sub>2</sub> · (θ<sub>f</sub> - θ<sub>2</sub>) = 0</i>
                         </div>
                     </td>
-                    <td class="calc-value" id="tTheory1Val">52.04</td>
+                    <td class="calc-value" id="tTheory1Val">0</td>
                     <td>°C</td>
                 </tr>
                 <tr>
@@ -337,7 +337,7 @@
                             <i>m<sub>f</sub> · c<sub>f</sub> · (θ<sub>2</sub> - θ<sub>f</sub>) = m<sub>a</sub> · c<sub>a</sub> · (θ<sub>f</sub> - θ<sub>1</sub>)</i>
                         </div>
                     </td>
-                    <td class="calc-value" id="tTheory2Val">52.04</td>
+                    <td class="calc-value" id="tTheory2Val">0</td>
                     <td>°C</td>
                 </tr>
             </tbody>
