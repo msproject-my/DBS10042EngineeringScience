@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Labwork Fizik - Keseimbangan Haba (Thermal Equilibrium)</title>
+    <style>
+        :root {
+            --primary: #d97706;
+            --primary-dark: #b45309;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #cbd5e1;
+            --highlight: #fef08a;
+            --highlight-border: #eab308;
+            --accent: #059669;
+            --formula-bg: #fef3c7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 24px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 24px;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .table-custom {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .table-custom th, .table-custom td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table-custom th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .text-left {
+            text-align: left !important;
+        }
+
+        .input-yellow {
+            background-color: var(--highlight);
+            border: 2px solid var(--highlight-border);
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            max-width: 100px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-yellow:focus {
+            background-color: #fff9c4;
+            box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.3);
+        }
+
+        .calc-value {
+            background-color: #f8fafc;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .formula-box {
+            background-color: var(--formula-bg);
+            border: 1px solid #fde68a;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 0.95rem;
+            color: #78350f;
+            text-align: left;
+            margin-top: 6px;
+        }
+
+        .conclusion-box {
+            background-color: #f0fdf4;
+            border-left: 5px solid var(--accent);
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: #14532d;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #334155;
+        }
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .table-caption {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>Data Analysis Labwork</h1>
+            <div class="subtitle">Modul Pengiraan Keseimbangan Haba (Thermal Equilibrium)</div>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-secondary" onclick="resetToZero()">Reset (0)</button>
+            <button class="btn btn-primary" onclick="window.print()">Cetak / Simpan PDF</button>
+        </div>
+    </header>
+
+    <!-- TABLE 3A: MASS -->
+    <div class="card">
+        <div class="card-title">1. Pengukuran Jisim (MASS, m)</div>
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th rowspan="2" style="width: 55%;" class="text-left">MASS, m</th>
+                    <th colspan="3">gram (g)</th>
+                </tr>
+                <tr>
+                    <th style="width: 15%;">Trial 1</th>
+                    <th style="width: 15%;">Trial 2</th>
+                    <th style="width: 15%;">Average</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-left">Styrofoam cup, <i>m<sub>1</sub></i></td>
+                    <td><input type="number" step="0.1" class="input-yellow" id="m1_t1" value="3.8" oninput="calculateAll()"></td>
+                    <td><input type="number" step="0.1" class="input-yellow" id="m1_t2" value="4.2" oninput="calculateAll()"></td>
+                    <td class="calc-value" id="m1_avg">4.00</td>
+                </tr>
+                <tr>
+                    <td class="text-left">Styrofoam cup with 150ml tap water, <i>m<sub>2</sub></i></td>
+                    <td><input type="number" step="0.1" class="input-yellow" id="m2_t1" value="153.1" oninput="calculateAll()"></td>
+                    <td><input type="number" step="0.1" class="input-yellow" id="m2_t2" value="157.1" oninput="calculateAll()"></td>
+                    <td class="calc-value" id="m2_avg">155.10</td>
+                </tr>
+                <tr>
+                    <td class="text-left">Styrofoam cup with 300ml mixture water, <i>m<sub>3</sub></i> (150ml tap water + 150ml hot water)</td>
+                    <td><input type="number" step="0.1" class="input-yellow" id="m3_t1" value="293.0" oninput="calculateAll()"></td>
+                    <td><input type="number" step="0.1" class="input-yellow" id="m3_t2" value="305.9" oninput="calculateAll()"></td>
+                    <td class="calc-value" id="m3_avg">299.45</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="table-caption">Table 3a</div>
+    </div>
+
+    <!-- TABLE 3B: TEMPERATURE -->
+    <div class="card">
+        <div class="card-title">2. Pengukuran Suhu (TEMPERATURE, T)</div>
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th rowspan="2" style="width: 55%;" class="text-left">TEMPERATURE, T</th>
+                    <th colspan="3">Celcius (°C)</th>
+                </tr>
+                <tr>
+                    <th style="width: 15%;">Trial 1</th>
+                    <th style="width: 15%;">Trial 2</th>
+                    <th style="width: 15%;">Average</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-left">Tap water, <i>T<sub>1</sub></i></td>
+                    <td><input type="number" step="0.1" class="input-yellow" id="t1_t1" value="22.4" oninput="calculateAll()"></td>
+                    <td><input type="number" step="0.1" class="input-yellow" id="t1_t2" value="22.8" oninput="calculateAll()"></td>
+                    <td class="calc-value" id="t1_avg">22.60</td>
+                </tr>
+                <tr>
+                    <td class="text-left">Hot water, <i>T<sub>2</sub></i></td>
+                    <td><input type="number" step="0.1" class="input-yellow" id="t2_t1" value="84.4" oninput="calculateAll()"></td>
+                    <td><input type="number" step="0.1" class="input-yellow" id="t2_t2" value="81.3" oninput="calculateAll()"></td>
+                    <td class="calc-value" id="t2_avg">82.85</td>
+                </tr>
+                <tr>
+                    <td class="text-left">The mixture waters, <i>T<sub>final</sub></i> (150ml tap water + 150ml hot water)</td>
+                    <td><input type="number" step="0.1" class="input-yellow" id="tf_t1" value="51.6" oninput="calculateAll()"></td>
+                    <td><input type="number" step="0.1" class="input-yellow" id="tf_t2" value="51.3" oninput="calculateAll()"></td>
+                    <td class="calc-value" id="tf_avg">51.45</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="table-caption">Table 3b</div>
+    </div>
+
+    <!-- TABLE 3C: ANALYSIS & THEORY -->
+    <div class="card">
+        <div class="card-title">3. Hasil Analisis & Perbandingan Teori</div>
+        <table class="table-custom">
+            <tbody>
+                <tr>
+                    <td class="text-left" style="width: 65%;"><strong>Mass of tap water = <i>m<sub>cold</sub> = m<sub>2</sub> - m<sub>1</sub></i></strong></td>
+                    <td class="calc-value" style="width: 20%;" id="mColdVal">151.10</td>
+                    <td style="width: 15%;">g</td>
+                </tr>
+                <tr>
+                    <td class="text-left"><strong>Mass of hot water = <i>m<sub>hot</sub> = m<sub>3</sub> - m<sub>2</sub></i></strong></td>
+                    <td class="calc-value" id="mHotVal">144.35</td>
+                    <td>g</td>
+                </tr>
+                <tr>
+                    <td class="text-left"><strong>Final temperature of mixture water, <i>T<sub>final</sub></i> (from experiment)</strong></td>
+                    <td class="calc-value" id="tFinalExpVal">51.45</td>
+                    <td>°C</td>
+                </tr>
+                <tr>
+                    <td class="text-left">
+                        <strong>Final temperature of mixture water, <i>T<sub>final</sub></i> (from theory 1)</strong>
+                        <div class="formula-box">
+                            <i>Q<sub>heating</sub> + Q<sub>cooling</sub> = 0</i><br>
+                            <i>Q<sub>1</sub> + Q<sub>2</sub> = 0</i><br>
+                            <i>m<sub>1</sub> · c<sub>1</sub> · θ<sub>1</sub> + m<sub>2</sub> · c<sub>2</sub> · θ<sub>2</sub> = 0</i><br>
+                            <i>m<sub>1</sub> · c<sub>1</sub> · (θ<sub>f</sub> - θ<sub>1</sub>) + m<sub>2</sub> · c<sub>2</sub> · (θ<sub>f</sub> - θ<sub>2</sub>) = 0</i>
+                        </div>
+                    </td>
+                    <td class="calc-value" id="tTheory1Val">52.04</td>
+                    <td>°C</td>
+                </tr>
+                <tr>
+                    <td class="text-left">
+                        <strong>Final temperature of mixture water, <i>T<sub>final</sub></i> (from theory 2)</strong>
+                        <div class="formula-box">
+                            <i>Q<sub>released</sub> = Q<sub>absorbed</sub></i><br>
+                            <i>m<sub>f</sub> · c<sub>f</sub> · θ<sub>f</sub> = m<sub>a</sub> · c<sub>a</sub> · θ<sub>a</sub></i><br>
+                            <i>m<sub>f</sub> · c<sub>f</sub> · (θ<sub>2</sub> - θ<sub>f</sub>) = m<sub>a</sub> · c<sub>a</sub> · (θ<sub>f</sub> - θ<sub>1</sub>)</i>
+                        </div>
+                    </td>
+                    <td class="calc-value" id="tTheory2Val">52.04</td>
+                    <td>°C</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="table-caption">Table 3c</div>
+    </div>
+
+    <!-- CONCLUSION -->
+    <div class="card">
+        <div class="card-title">4. Kesimpulan (Conclusion)</div>
+        <div class="conclusion-box">
+            <strong>CONCLUSION :</strong> The final temperature obtained from experiment will be the state in which the temperature of two substances reached the equal temperature at a certain time.
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function calculateAll() {
+        // Table 3a Averages
+        let m1_t1 = parseFloat(document.getElementById('m1_t1').value) || 0;
+        let m1_t2 = parseFloat(document.getElementById('m1_t2').value) || 0;
+        let m1_avg = (m1_t1 + m1_t2) / 2;
+        document.getElementById('m1_avg').innerText = m1_avg.toFixed(2);
+
+        let m2_t1 = parseFloat(document.getElementById('m2_t1').value) || 0;
+        let m2_t2 = parseFloat(document.getElementById('m2_t2').value) || 0;
+        let m2_avg = (m2_t1 + m2_t2) / 2;
+        document.getElementById('m2_avg').innerText = m2_avg.toFixed(2);
+
+        let m3_t1 = parseFloat(document.getElementById('m3_t1').value) || 0;
+        let m3_t2 = parseFloat(document.getElementById('m3_t2').value) || 0;
+        let m3_avg = (m3_t1 + m3_t2) / 2;
+        document.getElementById('m3_avg').innerText = m3_avg.toFixed(2);
+
+        // Table 3b Averages
+        let t1_t1 = parseFloat(document.getElementById('t1_t1').value) || 0;
+        let t1_t2 = parseFloat(document.getElementById('t1_t2').value) || 0;
+        let t1_avg = (t1_t1 + t1_t2) / 2;
+        document.getElementById('t1_avg').innerText = t1_avg.toFixed(2);
+
+        let t2_t1 = parseFloat(document.getElementById('t2_t1').value) || 0;
+        let t2_t2 = parseFloat(document.getElementById('t2_t2').value) || 0;
+        let t2_avg = (t2_t1 + t2_t2) / 2;
+        document.getElementById('t2_avg').innerText = t2_avg.toFixed(2);
+
+        let tf_t1 = parseFloat(document.getElementById('tf_t1').value) || 0;
+        let tf_t2 = parseFloat(document.getElementById('tf_t2').value) || 0;
+        let tf_avg = (tf_t1 + tf_t2) / 2;
+        document.getElementById('tf_avg').innerText = tf_avg.toFixed(2);
+
+        // Table 3c Calculations
+        let mCold = m2_avg - m1_avg;
+        if (mCold < 0) mCold = 0;
+        document.getElementById('mColdVal').innerText = mCold.toFixed(2);
+
+        let mHot = m3_avg - m2_avg;
+        if (mHot < 0) mHot = 0;
+        document.getElementById('mHotVal').innerText = mHot.toFixed(2);
+
+        document.getElementById('tFinalExpVal').innerText = tf_avg.toFixed(2);
+
+        // Theoretical Calculation
+        let tTheory = 0;
+        if ((mCold + mHot) > 0) {
+            tTheory = ((mCold * t1_avg) + (mHot * t2_avg)) / (mCold + mHot);
+        }
+
+        document.getElementById('tTheory1Val').innerText = tTheory.toFixed(2);
+        document.getElementById('tTheory2Val').innerText = tTheory.toFixed(2);
+    }
+
+    function resetToZero() {
+        // Reset Table 3a inputs to 0
+        document.getElementById('m1_t1').value = 0;
+        document.getElementById('m1_t2').value = 0;
+        document.getElementById('m2_t1').value = 0;
+        document.getElementById('m2_t2').value = 0;
+        document.getElementById('m3_t1').value = 0;
+        document.getElementById('m3_t2').value = 0;
+
+        // Reset Table 3b inputs to 0
+        document.getElementById('t1_t1').value = 0;
+        document.getElementById('t1_t2').value = 0;
+        document.getElementById('t2_t1').value = 0;
+        document.getElementById('t2_t2').value = 0;
+        document.getElementById('tf_t1').value = 0;
+        document.getElementById('tf_t2').value = 0;
+
+        calculateAll();
+    }
+
+    window.onload = function() {
+        calculateAll();
+    };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Labwork Fizik - Ticker Tape Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --highlight: #fef08a;
+            --highlight-border: #eab308;
+            --accent: #059669;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 24px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 24px;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .table-custom {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+        }
+
+        .table-custom th, .table-custom td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 12px;
+            font-size: 0.95rem;
+        }
+
+        .table-custom th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .input-yellow {
+            background-color: var(--highlight);
+            border: 2px solid var(--highlight-border);
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-yellow:focus {
+            background-color: #fff9c4;
+            box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.3);
+        }
+
+        .calculated-val {
+            font-weight: 600;
+            text-align: center;
+            background-color: #f8fafc;
+        }
+
+        .strip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+        }
+
+        .strip-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .strip-item label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .total-box {
+            background-color: #e0f2fe;
+            border: 1px solid #7dd3fc;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #0369a1;
+        }
+
+        .conclusion-box {
+            background-color: #f0fdf4;
+            border-left: 5px solid var(--accent);
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: #14532d;
+            line-height: 1.6;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 320px;
+            width: 100%;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #334155;
+        }
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>Data Analysis Labwork</h1>
+            <div class="subtitle">Modul Pengiraan Jalur Ticker Timer & Eksperimen Troli</div>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-secondary" onclick="resetToZero()">Reset (0)</button>
+            <button class="btn btn-primary" onclick="window.print()">Cetak / Simpan PDF</button>
+        </div>
+    </header>
+
+    <div class="grid-layout">
+        <!-- BAHAGIAN KIRI: INPUT & JADUAL DATA -->
+        <div>
+            <div class="card">
+                <div class="card-title">1. Tetapan & Masukan Data Jalur (Strips)</div>
+                
+                <table class="table-custom">
+                    <tr>
+                        <td style="width: 65%;"><strong>Bilangan Jalur 10-Teks (Number of 10 ticks strip)</strong></td>
+                        <td>
+                            <input type="number" id="numStrips" class="input-yellow" value="6" min="0" max="10" oninput="calculateAll()">
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="margin-top: 15px;">
+                    <label style="font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; display: block;">Panjang Setiap Jalur (cm):</label>
+                    <div class="strip-grid">
+                        <div class="strip-item"><label>Strip 1</label><input type="number" step="0.1" id="s1" class="input-yellow strip-input" value="5" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 2</label><input type="number" step="0.1" id="s2" class="input-yellow strip-input" value="11.5" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 3</label><input type="number" step="0.1" id="s3" class="input-yellow strip-input" value="17.7" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 4</label><input type="number" step="0.1" id="s4" class="input-yellow strip-input" value="24.1" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 5</label><input type="number" step="0.1" id="s5" class="input-yellow strip-input" value="30" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 6</label><input type="number" step="0.1" id="s6" class="input-yellow strip-input" value="36.3" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 7</label><input type="number" step="0.1" id="s7" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 8</label><input type="number" step="0.1" id="s8" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 9</label><input type="number" step="0.1" id="s9" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
+                        <div class="strip-item"><label>Strip 10</label><input type="number" step="0.1" id="s10" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
+                    </div>
+                </div>
+
+                <div class="total-box">
+                    <span>TOTAL DISPLACEMENT:</span>
+                    <span id="totalDisplacementDisp" style="font-size: 1.2rem;">124.60 cm</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">2. Hasil Pengiraan (Calculated Results)</div>
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>(cm / s / cm/s)</th>
+                            <th>(m / m/s / m/s²)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Total time from 1st tick to last tick</td>
+                            <td colspan="2" class="calculated-val" id="totalTimeVal">1.20 s</td>
+                        </tr>
+                        <tr>
+                            <td>Total displacement of the trolley</td>
+                            <td class="calculated-val" id="dispCm">124.60</td>
+                            <td class="calculated-val" id="dispM">1.246</td>
+                        </tr>
+                        <tr>
+                            <td>Length of the 1st strip</td>
+                            <td class="calculated-val" id="firstCm">5.00</td>
+                            <td class="calculated-val" id="firstM">0.050</td>
+                        </tr>
+                        <tr>
+                            <td>Length of the last strip</td>
+                            <td class="calculated-val" id="lastCm">36.30</td>
+                            <td class="calculated-val" id="lastM">0.363</td>
+                        </tr>
+                        <tr>
+                            <td>Average velocity of the trolley</td>
+                            <td class="calculated-val" id="avgVelCm">103.83 cm/s</td>
+                            <td class="calculated-val" id="avgVelM">1.04 m/s</td>
+                        </tr>
+                        <tr>
+                            <td>Initial velocity, <i>u</i></td>
+                            <td class="calculated-val" id="uCm">25.00 cm/s</td>
+                            <td class="calculated-val" id="uM">0.25 m/s</td>
+                        </tr>
+                        <tr>
+                            <td>Final velocity, <i>v</i></td>
+                            <td class="calculated-val" id="vCm">181.50 cm/s</td>
+                            <td class="calculated-val" id="vM">1.82 m/s</td>
+                        </tr>
+                        <tr>
+                            <td>Time for acceleration, <i>t</i></td>
+                            <td colspan="2" class="calculated-val" id="accTime">1.00 s</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Acceleration, <i>a</i></strong></td>
+                            <td class="calculated-val" id="accCm" style="font-weight: bold; color: #b91c1c;">156.500 cm/s²</td>
+                            <td class="calculated-val" id="accM" style="font-weight: bold; color: #b91c1c;">1.565 m/s²</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- BAHAGIAN KANAN: GRAF & KESIMPULAN -->
+        <div>
+            <div class="card">
+                <div class="card-title">3. Graf Displacement vs Time (Strip Length)</div>
+                <div class="chart-container">
+                    <canvas id="displacementChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">4. Kesimpulan (Conclusion)</div>
+                <div class="conclusion-box" id="conclusionText">
+                    <strong>CONCLUSION:</strong> The experiment shows the trolley is moving in <b>increasing speed and acceleration</b>. Changes in distance between dots indicate a <b>changing velocity</b> and thus, acceleration. Meanwhile, a constant distance between dots represents a constant velocity and <b>no acceleration</b>. It is found that if the distance between the dots is far, it means that the object is moving fast, while for slow moving object, distance between the dots is close.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let myChart;
+
+    function initChart() {
+        const ctx = document.getElementById('displacementChart').getContext('2d');
+        myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Strip 1', 'Strip 2', 'Strip 3', 'Strip 4', 'Strip 5', 'Strip 6', 'Strip 7', 'Strip 8', 'Strip 9', 'Strip 10'],
+                datasets: [{
+                    label: 'Length (cm)',
+                    data: [5, 11.5, 17.7, 24.1, 30, 36.3, 0, 0, 0, 0],
+                    backgroundColor: '#c00000',
+                    borderColor: '#800000',
+                    borderWidth: 1,
+                    barPercentage: 0.6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Displacement vs Time',
+                        font: { size: 16, weight: 'bold' },
+                        color: '#444'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Displacement (cm)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    }
+
+    function calculateAll() {
+        let numStripsInput = parseInt(document.getElementById('numStrips').value);
+        let numStrips = isNaN(numStripsInput) ? 0 : numStripsInput;
+        
+        if (numStrips < 0) numStrips = 0;
+        if (numStrips > 10) numStrips = 10;
+
+        // Strip inputs
+        let stripVals = [];
+        for (let i = 1; i <= 10; i++) {
+            let val = parseFloat(document.getElementById('s' + i).value) || 0;
+            let inputElem = document.getElementById('s' + i);
+            if (i <= numStrips) {
+                inputElem.style.opacity = "1";
+                inputElem.disabled = false;
+            } else {
+                inputElem.style.opacity = "0.4";
+                val = 0;
+            }
+            stripVals.push(val);
+        }
+
+        const timePerStrip = 0.2; 
+        let totalTime = numStrips * timePerStrip;
+        
+        let activeStripsVals = stripVals.slice(0, numStrips);
+        let totalDisplacement = activeStripsVals.reduce((a, b) => a + b, 0);
+
+        let firstStrip = numStrips > 0 ? activeStripsVals[0] : 0;
+        let lastStrip = numStrips > 0 ? activeStripsVals[numStrips - 1] : 0;
+
+        let avgVelocityCm = totalTime > 0 ? totalDisplacement / totalTime : 0;
+        let avgVelocityM = avgVelocityCm / 100;
+
+        let uCm = totalTime > 0 ? firstStrip / timePerStrip : 0;
+        let uM = uCm / 100;
+
+        let vCm = totalTime > 0 ? lastStrip / timePerStrip : 0;
+        let vM = vCm / 100;
+
+        let accTime = (numStrips > 1) ? (numStrips - 1) * timePerStrip : (numStrips === 1 ? timePerStrip : 0);
+        let accCm = (numStrips > 1 && accTime > 0) ? (vCm - uCm) / accTime : 0;
+        let accM = accCm / 100;
+
+        // UI Updates
+        document.getElementById('totalDisplacementDisp').innerText = totalDisplacement.toFixed(2) + " cm";
+        document.getElementById('totalTimeVal').innerText = totalTime.toFixed(2) + " s";
+
+        document.getElementById('dispCm').innerText = totalDisplacement.toFixed(2);
+        document.getElementById('dispM').innerText = (totalDisplacement / 100).toFixed(3);
+
+        document.getElementById('firstCm').innerText = firstStrip.toFixed(2);
+        document.getElementById('firstM').innerText = (firstStrip / 100).toFixed(3);
+
+        document.getElementById('lastCm').innerText = lastStrip.toFixed(2);
+        document.getElementById('lastM').innerText = (lastStrip / 100).toFixed(3);
+
+        document.getElementById('avgVelCm').innerText = avgVelocityCm.toFixed(2) + " cm/s";
+        document.getElementById('avgVelM').innerText = avgVelocityM.toFixed(2) + " m/s";
+
+        document.getElementById('uCm').innerText = uCm.toFixed(2) + " cm/s";
+        document.getElementById('uM').innerText = uM.toFixed(2) + " m/s";
+
+        document.getElementById('vCm').innerText = vCm.toFixed(2) + " cm/s";
+        document.getElementById('vM').innerText = vM.toFixed(2) + " m/s";
+
+        document.getElementById('accTime').innerText = accTime.toFixed(2) + " s";
+
+        document.getElementById('accCm').innerText = accCm.toFixed(3) + " cm/s²";
+        document.getElementById('accM').innerText = accM.toFixed(3) + " m/s²";
+
+        // Update Chart
+        if (myChart) {
+            myChart.data.datasets[0].data = stripVals;
+            myChart.update();
+        }
+
+        // Dynamic Conclusion Text
+        let motionType = "constant velocity (zero acceleration)";
+        if (accCm > 0.01) {
+            motionType = "increasing speed and acceleration";
+        } else if (accCm < -0.01) {
+            motionType = "decreasing speed (deceleration)";
+        }
+
+        document.getElementById('conclusionText').innerHTML = `
+            <strong>CONCLUSION:</strong> The experiment shows the trolley is moving with <b>${motionType}</b>. Changes in distance between dots indicate a <b>changing velocity</b> and thus, acceleration. Meanwhile, a constant distance between dots represents a constant velocity and <b>no acceleration</b>. It is found that if the distance between the dots is far, it means that the object is moving fast, while for slow moving object, distance between the dots is close.
+        `;
+    }
+
+    function resetToZero() {
+        // Reset bilangan jalur ke 0
+        document.getElementById('numStrips').value = 0;
+        
+        // Reset semua jalur (1-10) ke 0
+        for (let i = 1; i <= 10; i++) {
+            document.getElementById('s' + i).value = 0;
+        }
+        
+        calculateAll();
+    }
+
+    window.onload = function() {
+        initChart();
+        calculateAll();
+    };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Labwork Fizik - Prinsip Archimedes & Daya Apungan</title>
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #cbd5e1;
+            --highlight: #fef08a;
+            --highlight-border: #eab308;
+            --accent: #059669;
+            --input-bg-blue: #dbeafe;
+            --input-bg-peach: #ffedd5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 24px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 24px;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-setting {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f1f5f9;
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .input-yellow {
+            background-color: var(--highlight);
+            border: 2px solid var(--highlight-border);
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-weight: bold;
+            text-align: center;
+            width: 120px;
+            font-size: 1.05rem;
+            outline: none;
+        }
+
+        .table-custom {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+        }
+
+        .table-custom th, .table-custom td {
+            border: 1px solid var(--border);
+            padding: 8px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table-custom th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .cell-input {
+            width: 100%;
+            padding: 6px 4px;
+            border: 1px solid #94a3b8;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .bg-blue-input { background-color: var(--input-bg-blue); }
+        .bg-peach-input { background-color: var(--input-bg-peach); }
+
+        .calc-value {
+            background-color: #f8fafc;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .conclusion-box {
+            background-color: #f0fdf4;
+            border-left: 5px solid var(--accent);
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: #14532d;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-secondary { background: #e2e8f0; color: #334155; }
+        .btn-secondary:hover { background: #cbd5e1; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>Data Analysis Labwork</h1>
+            <div class="subtitle">Modul Pengiraan Prinsip Archimedes & Daya Apungan (Buoyant Force)</div>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-secondary" onclick="resetToZero()">Reset (0)</button>
+            <button class="btn btn-primary" onclick="window.print()">Cetak / Simpan PDF</button>
+        </div>
+    </header>
+
+    <!-- TOP PARAMETER -->
+    <div class="top-setting">
+        <label for="mEmpty"><strong>Mass of empty beaker, m<sub>empty</sub> (g) =</strong></label>
+        <input type="number" id="mEmpty" class="input-yellow" value="112.3" step="0.1" oninput="calculateAll()">
+        <span style="font-size: 0.85rem; color: #64748b; margin-left: auto;">Nilai Tarikan Graviti, <i>g</i> = 9.81 m/s²</span>
+    </div>
+
+    <!-- JADUAL 1: PENGUKURAN JISIM & BERAT -->
+    <div class="card">
+        <div class="card-title">1. Jadual Pengukuran Jisim & Berat (Mass & Weight Measurement)</div>
+        <div style="overflow-x: auto;">
+            <table class="table-custom">
+                <thead>
+                    <tr>
+                        <th rowspan="3" style="width: 12%;">Type of Block</th>
+                        <th colspan="6">Weight of Block (N)</th>
+                        <th colspan="3" rowspan="2">Mass of beaker with displaced water (g)</th>
+                        <th rowspan="2">Mass of water displaced (g)</th>
+                    </tr>
+                    <tr>
+                        <th colspan="3">In the air, T<sub>1</sub> (N)</th>
+                        <th colspan="3">In the water, T<sub>2</sub> (N)</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 7%;">Trial 1</th>
+                        <th style="width: 7%;">Trial 2</th>
+                        <th style="width: 8%;">Average, T<sub>A1</sub></th>
+                        <th style="width: 7%;">Trial 1</th>
+                        <th style="width: 7%;">Trial 2</th>
+                        <th style="width: 8%;">Average, T<sub>A2</sub></th>
+                        <th style="width: 8%;">Trial 1</th>
+                        <th style="width: 8%;">Trial 2</th>
+                        <th style="width: 8%;">Average, m<sub>a</sub></th>
+                        <th>m<sub>displaced</sub> = m<sub>a</sub> - m<sub>empty</sub> (m<sub>d</sub>)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- WOOD -->
+                    <tr>
+                        <td><strong>Wood</strong></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="w1_t1" value="0.5" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="w1_t2" value="0.6" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="w1_avg1">0.55</td>
+                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="w1_w_t1" value="0" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="w1_w_t2" value="0" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="w1_avg2">0.00</td>
+                        <td><input type="number" step="0.1" class="cell-input bg-blue-input" id="w1_b_t1" value="166.6" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.1" class="cell-input bg-peach-input" id="w1_b_t2" value="171" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="w1_b_avg">168.80</td>
+                        <td class="calc-value" id="w1_md">56.50</td>
+                    </tr>
+                    <!-- PLASTIC -->
+                    <tr>
+                        <td><strong>Plastic</strong></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="p1_t1" value="1.6" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="p1_t2" value="1.6" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="p1_avg1">1.60</td>
+                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="p1_w_t1" value="0.25" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="p1_w_t2" value="0.3" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="p1_avg2">0.28</td>
+                        <td><input type="number" step="0.1" class="cell-input bg-blue-input" id="p1_b_t1" value="254.4" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.1" class="cell-input bg-peach-input" id="p1_b_t2" value="246.4" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="p1_b_avg">250.40</td>
+                        <td class="calc-value" id="p1_md">138.10</td>
+                    </tr>
+                    <!-- METAL -->
+                    <tr>
+                        <td><strong>Metal</strong></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="m1_t1" value="3.5" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="m1_t2" value="3.5" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="m1_avg1">3.50</td>
+                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="m1_w_t1" value="2.2" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="m1_w_t2" value="2.2" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="m1_avg2">2.20</td>
+                        <td><input type="number" step="0.1" class="cell-input bg-blue-input" id="m1_b_t1" value="248.0" oninput="calculateAll()"></td>
+                        <td><input type="number" step="0.1" class="cell-input bg-peach-input" id="m1_b_t2" value="247.9" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="m1_b_avg">247.95</td>
+                        <td class="calc-value" id="m1_md">135.65</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- JADUAL 2: PENGIRAAN DAYA APUNGAN & PERATUS RALAT -->
+    <div class="card">
+        <div class="card-title">2. Analisis Daya Apungan & Peratus Ralat (Buoyant Force & Percentage Error)</div>
+        <div style="overflow-x: auto;">
+            <table class="table-custom">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Type of Block</th>
+                        <th style="width: 30%;">Weight of water displaced, W<sub>displaced</sub> (N)<br><small>W<sub>displaced</sub> = (m<sub>d</sub> / 1000) × g</small></th>
+                        <th style="width: 25%;">Buoyant Force, F<sub>B</sub> (N)<br><small>F<sub>B</sub> = T<sub>A1</sub> - T<sub>A2</sub></small></th>
+                        <th style="width: 30%;">% Error = |(Difference between F<sub>B</sub> and W<sub>displaced</sub>) / F<sub>B</sub>| × 100%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Wood</strong></td>
+                        <td class="calc-value" id="w1_wd">0.55</td>
+                        <td class="calc-value" id="w1_fb">0.55</td>
+                        <td class="calc-value" id="w1_err">0.00%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Plastic</strong></td>
+                        <td class="calc-value" id="p1_wd">1.35</td>
+                        <td class="calc-value" id="p1_fb">1.32</td>
+                        <td class="calc-value" id="p1_err">2.27%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Metal</strong></td>
+                        <td class="calc-value" id="m1_wd">1.33</td>
+                        <td class="calc-value" id="m1_fb">1.30</td>
+                        <td class="calc-value" id="m1_err">2.31%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- KESIMPULAN -->
+    <div class="card">
+        <div class="card-title">3. Kesimpulan (Conclusion)</div>
+        <div class="conclusion-box">
+            <strong>CONCLUSION :</strong> From the experiment, it is found that when an object is immersed in water, the buoyant force (upthrust force) on the object is equal to the weight of water displaced by the object.
+        </div>
+        <div style="margin-top: 15px; font-size: 0.85rem; color: #64748b; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+            💡 <b>Nota Formulatik:</b><br>
+            • <i>g</i> diambil sebagai 9.81 m/s².<br>
+            • Peratus Ralat dihitung berpandukan formula |F<sub>B</sub> - W<sub>displaced</sub>| / F<sub>B</sub> × 100%.
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const g = 9.81;
+
+    function calculateAll() {
+        let mEmpty = parseFloat(document.getElementById('mEmpty').value) || 0;
+
+        function processRow(prefix) {
+            let t1 = parseFloat(document.getElementById(prefix + '_t1').value) || 0;
+            let t2 = parseFloat(document.getElementById(prefix + '_t2').value) || 0;
+            let avg1 = (t1 + t2) / 2;
+            document.getElementById(prefix + '_avg1').innerText = avg1.toFixed(2);
+
+            let wt1 = parseFloat(document.getElementById(prefix + '_w_t1').value) || 0;
+            let wt2 = parseFloat(document.getElementById(prefix + '_w_t2').value) || 0;
+            let avg2 = (wt1 + wt2) / 2;
+            document.getElementById(prefix + '_avg2').innerText = avg2.toFixed(2);
+
+            let bt1 = parseFloat(document.getElementById(prefix + '_b_t1').value) || 0;
+            let bt2 = parseFloat(document.getElementById(prefix + '_b_t2').value) || 0;
+            let bAvg = (bt1 + bt2) / 2;
+            document.getElementById(prefix + '_b_avg').innerText = bAvg.toFixed(2);
+
+            let md = bAvg - mEmpty;
+            if (md < 0) md = 0;
+            document.getElementById(prefix + '_md').innerText = md.toFixed(2);
+
+            let wDisplaced = (md / 1000) * g;
+            document.getElementById(prefix + '_wd').innerText = wDisplaced.toFixed(2);
+
+            let fb = avg1 - avg2;
+            document.getElementById(prefix + '_fb').innerText = fb.toFixed(2);
+
+            let error = 0;
+            if (fb > 0) {
+                error = (Math.abs(fb - wDisplaced) / fb) * 100;
+            }
+            document.getElementById(prefix + '_err').innerText = error.toFixed(2) + "%";
+        }
+
+        processRow('w1');
+        processRow('p1');
+        processRow('m1');
+    }
+
+    function resetToZero() {
+        // Reset Mass of empty beaker ke 0
+        document.getElementById('mEmpty').value = 0;
+
+        // Reset Wood (Ujian 1 & Ujian 2 ke 0)
+        document.getElementById('w1_t1').value = 0;
+        document.getElementById('w1_t2').value = 0;
+        document.getElementById('w1_w_t1').value = 0;
+        document.getElementById('w1_w_t2').value = 0;
+        document.getElementById('w1_b_t1').value = 0;
+        document.getElementById('w1_b_t2').value = 0;
+
+        // Reset Plastic (Ujian 1 & Ujian 2 ke 0)
+        document.getElementById('p1_t1').value = 0;
+        document.getElementById('p1_t2').value = 0;
+        document.getElementById('p1_w_t1').value = 0;
+        document.getElementById('p1_w_t2').value = 0;
+        document.getElementById('p1_b_t1').value = 0;
+        document.getElementById('p1_b_t2').value = 0;
+
+        // Reset Metal (Ujian 1 & Ujian 2 ke 0)
+        document.getElementById('m1_t1').value = 0;
+        document.getElementById('m1_t2').value = 0;
+        document.getElementById('m1_w_t1').value = 0;
+        document.getElementById('m1_w_t2').value = 0;
+        document.getElementById('m1_b_t1').value = 0;
+        document.getElementById('m1_b_t2').value = 0;
+
+        calculateAll();
+    }
+
+    window.onload = function() {
+        calculateAll();
+    };
+</script>
+
+</body>
+</html>
