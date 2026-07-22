@@ -18,6 +18,19 @@
             box-sizing: border-box;
         }
 
+        /* --- MENYEMBUNYIKAN ANAK PANAH TAMBAH/TOLAK PADA INPUT --- */
+        /* Untuk Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Untuk Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
         /* Bekas Utama Halaman */
         .main-wrapper {
             background-color: #ffffff;
@@ -67,9 +80,9 @@
         }
 
         .caliper-image-section img {
-            max-width: 75%;     /* Boleh tukar ke 60% jika nak lebih kecil */
+            max-width: 75%;
             width: 100%;
-            max-height: 220px;   /* Mengelakkan imej terpotong/terlalu tinggi */
+            max-height: 220px;
             height: auto;
             object-fit: contain;
             display: block;
@@ -231,7 +244,6 @@
 
     <!-- Bahagian Imej -->
     <div class="caliper-image-section">
-        <!-- MASUKKAN KOD BASE64 IMEJ ANDA DALAM SRC DI BAWAH -->
         <img src="verniercaliper.png" alt="Vernier Caliper" />
     </div>
 
@@ -244,35 +256,35 @@
                 <div class="input-row">
                     <span class="label-text">Reading : &nbsp;<strong>Main scale</strong></span>
                     <span class="equals-sign">=</span>
-                    <input type="number" id="mainScale" class="data-input" value="2.9" step="0.1" oninput="calculate()">
+                    <input type="number" id="mainScale" class="data-input" value="0" step="0.1" oninput="calculate()">
                     <span class="unit-text">cm</span>
                 </div>
 
                 <div class="input-row">
                     <span class="label-text">Reading : &nbsp;<strong>Vernier scale</strong> <span class="formula-note">(position in line)</span></span>
                     <span class="equals-sign">=</span>
-                    <input type="number" id="vernierScale" class="data-input" value="8" step="1" oninput="calculate()">
+                    <input type="number" id="vernierScale" class="data-input" value="0" step="1" oninput="calculate()">
                     <span class="unit-text"></span>
                 </div>
 
                 <div class="input-row">
                     <span class="label-text">Value of smallest division main scale</span>
                     <span class="equals-sign">=</span>
-                    <input type="number" id="smallestMainDiv" class="data-input" value="0.1" step="0.01" oninput="calculate()">
+                    <input type="number" id="smallestMainDiv" class="data-input" value="0" step="0.01" oninput="calculate()">
                     <span class="unit-text">cm</span>
                 </div>
 
                 <div class="input-row">
                     <span class="label-text">No. of small division on vernier scale</span>
                     <span class="equals-sign">=</span>
-                    <input type="number" id="noVernierDiv" class="data-input" value="20" step="1" oninput="calculate()">
+                    <input type="number" id="noVernierDiv" class="data-input" value="0" step="1" oninput="calculate()">
                     <span class="unit-text"></span>
                 </div>
 
                 <div class="input-row">
                     <span class="label-text"><strong>Zero error</strong> <span class="formula-note">(if available)</span></span>
                     <span class="equals-sign">=</span>
-                    <input type="number" id="zeroError" class="data-input" value="0.007" step="0.001" oninput="calculate()">
+                    <input type="number" id="zeroError" class="data-input" value="0.007" step="0" oninput="calculate()">
                     <span class="unit-text">cm</span>
                 </div>
 
@@ -302,14 +314,14 @@
             <div class="input-row result-row">
                 <span class="label-text"><strong>OBTAINED READING</strong></span>
                 <span class="equals-sign">=</span>
-                <input type="text" id="obtainedReading" class="data-input result-output" readonly value="2.940">
+                <input type="text" id="obtainedReading" class="data-input result-output" readonly value="0">
                 <span class="unit-text">cm</span>
             </div>
 
             <div class="input-row result-row">
                 <span class="label-text"><strong>TRUE READING</strong> <span class="formula-note">(with zero error)</span></span>
                 <span class="equals-sign">=</span>
-                <input type="text" id="trueReading" class="data-input result-output" readonly value="2.933">
+                <input type="text" id="trueReading" class="data-input result-output" readonly value="0">
                 <span class="unit-text">cm</span>
             </div>
 
