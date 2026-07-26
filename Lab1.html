@@ -249,9 +249,9 @@
         </div>
         <div class="btn-group">
             <!-- BUTANG HOME -->
-            <a href="index.html" class="btn btn-home">🏠 Laman Utama</a>
+            <a href="index.html" class="btn btn-home">🏠 Home</a>
             <button class="btn btn-secondary" onclick="resetToZero()">Reset (0)</button>
-            <button class="btn btn-primary" onclick="window.print()">Cetak / Simpan PDF</button>
+            <button class="btn btn-primary" onclick="window.print()">Print / Save as PDF</button>
         </div>
     </header>
 
@@ -259,11 +259,11 @@
         <!-- BAHAGIAN KIRI: INPUT & JADUAL DATA -->
         <div>
             <div class="card">
-                <div class="card-title">1. Tetapan & Masukan Data Jalur (Strips)</div>
+                <div class="card-title">1. Strip Data Settings</div>
                 
                 <table class="table-custom">
                     <tr>
-                        <td style="width: 65%;"><strong>Bilangan Jalur 10-Teks (Number of 10 ticks strip)</strong></td>
+                        <td style="width: 65%;"><strong>Number of 10 ticks strip</strong></td>
                         <td>
                             <input type="number" id="numStrips" class="input-yellow" value="0" min="0" max="10" oninput="calculateAll()">
                         </td>
@@ -271,7 +271,7 @@
                 </table>
 
                 <div style="margin-top: 15px;">
-                    <label style="font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; display: block;">Panjang Setiap Jalur (cm):</label>
+                    <label style="font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; display: block;">Length of each strip (cm):</label>
                     <div class="strip-grid">
                         <div class="strip-item"><label>Strip 1</label><input type="number" step="0.1" id="s1" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
                         <div class="strip-item"><label>Strip 2</label><input type="number" step="0.1" id="s2" class="input-yellow strip-input" value="0" oninput="calculateAll()"></div>
@@ -293,7 +293,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">2. Hasil Pengiraan (Calculated Results)</div>
+                <div class="card-title">2. Calculated Results</div>
                 <table class="table-custom">
                     <thead>
                         <tr>
@@ -354,14 +354,14 @@
         <!-- BAHAGIAN KANAN: GRAF & KESIMPULAN -->
         <div>
             <div class="card">
-                <div class="card-title">3. Graf Displacement vs Time (Strip Length)</div>
+                <div class="card-title">3. Graf:Displacement vs Time (Strip Length)</div>
                 <div class="chart-container">
                     <canvas id="displacementChart"></canvas>
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-title">4. Kesimpulan (Conclusion)</div>
+                <div class="card-title">4. Conclusion</div>
                 <div class="conclusion-box" id="conclusionText">
                     <strong>CONCLUSION:</strong> The experiment shows the trolley is moving in <b>increasing speed and acceleration</b>. Changes in distance between dots indicate a <b>changing velocity</b> and thus, acceleration. Meanwhile, a constant distance between dots represents a constant velocity and <b>no acceleration</b>. It is found that if the distance between the dots is far, it means that the object is moving fast, while for slow moving object, distance between the dots is close.
                 </div>
