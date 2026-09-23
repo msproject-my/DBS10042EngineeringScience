@@ -381,13 +381,16 @@
             document.getElementById(prefix + '_md').innerText = md.toFixed(2);
 
             let wDisplaced = (md / 1000) * g;
-            document.getElementById(prefix + '_wd').innerText = wDisplaced.toFixed(2);
+            let wDisplacedRounded = parseFloat(wDisplaced.toFixed(2));
+            document.getElementById(prefix + '_wd').innerText = wDisplacedRounded.toFixed(2);
 
             let fb = avg1 - avg2;
-            document.getElementById(prefix + '_fb').innerText = fb.toFixed(2);
+            let fbRounded = parseFloat(fb.toFixed(2));
+            document.getElementById(prefix + '_fb').innerText = fbRounded.toFixed(2);
 
-            if (fb > 0) {
-                let error = (Math.abs(fb - wDisplaced) / fb) * 100;
+            if (fbRounded > 0) {
+                // Menggunakan nilai yang telah dibundarkan kepada 2 tempat perpuluhan (standard manual)
+                let error = (Math.abs(fbRounded - wDisplacedRounded) / fbRounded) * 100;
                 document.getElementById(prefix + '_err').innerText = error.toFixed(2) + "%";
             } else {
                 document.getElementById(prefix + '_err').innerText = "-";
