@@ -34,15 +34,13 @@
             line-height: 1.5;
         }
 
-        /* --- MENYEMBUNYIKAN ANAK PANAH TAMBAH/TOLAK PADA INPUT --- */
-        /* Untuk Chrome, Safari, Edge, Opera */
+        /* Hiding number input spin arrows */
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
 
-        /* Untuk Firefox */
         input[type=number] {
             -moz-appearance: textfield;
         }
@@ -52,6 +50,7 @@
             margin: 0 auto;
         }
 
+        /* STREAMING_CHUNK:Styling header and navigation components -->
         header {
             margin-bottom: 24px;
             border-bottom: 3px solid var(--primary);
@@ -196,6 +195,13 @@
         .btn-primary:hover { background: var(--primary-dark); }
         .btn-secondary { background: #e2e8f0; color: #334155; }
         .btn-secondary:hover { background: #cbd5e1; }
+
+        /* Print styles for clean report exporting */
+        @media print {
+            body { padding: 0; background: #fff; }
+            .btn-group { display: none !important; }
+            .card { box-shadow: none; border: 1px solid #94a3b8; page-break-inside: avoid; }
+        }
     </style>
 </head>
 <body>
@@ -208,21 +214,19 @@
             <div class="subtitle">Labwork Data Analysis</div>
         </div>
         <div class="btn-group">
-            <!-- BUTANG HOME -->
             <a href="index.html" class="btn btn-home">🏠 Home</a>
-            <button class="btn btn-secondary" onclick="resetToZero()">Reset (0)</button>
-            <button class="btn btn-primary" onclick="window.print()">Print / Save as PDF</button>
+            <button type="button" class="btn btn-secondary" onclick="resetToZero()">Reset (0)</button>
+            <button type="button" class="btn btn-primary" onclick="window.print()">Print / Save as PDF</button>
         </div>
     </header>
 
     <!-- TOP PARAMETER -->
     <div class="top-setting">
         <label for="mEmpty"><strong>Mass of empty beaker, m<sub>empty</sub> (g) =</strong></label>
-        <input type="number" id="mEmpty" class="input-yellow" value="0" step="0.1" oninput="calculateAll()">
-        <span style="font-size: 0.85rem; color: #64748b; margin-left: auto;">Nilai Tarikan Graviti, <i>g</i> = 9.81 m/s²</span>
+        <input type="number" id="mEmpty" class="input-yellow" value="100" min="0" step="0.1" onfocus="this.select()" oninput="calculateAll()">
+        <span style="font-size: 0.85rem; color: #64748b; margin-left: auto;">Gravitational Acceleration, <i>g</i> = 9.81 m/s²</span>
     </div>
 
-    <!-- JADUAL 1: PENGUKURAN JISIM & BERAT -->
     <div class="card">
         <div class="card-title">1. Mass & Weight Measurement</div>
         <div style="overflow-x: auto;">
@@ -255,50 +259,49 @@
                     <!-- WOOD -->
                     <tr>
                         <td><strong>Wood</strong></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="w1_t1" value="0" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="w1_t2" value="0" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="w1_avg1">0</td>
-                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="w1_w_t1" value="0" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="w1_w_t2" value="0" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="w1_avg2">0</td>
-                        <td><input type="number" step="0.1" class="cell-input bg-blue-input" id="w1_b_t1" value="0" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.1" class="cell-input bg-peach-input" id="w1_b_t2" value="0" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="w1_b_avg">0</td>
-                        <td class="calc-value" id="w1_md">0</td>
+                        <td><input type="number" min="0" step="0.01" class="cell-input bg-blue-input" id="w1_t1" value="0.5" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td><input type="number" min="0" step="0.01" class="cell-input bg-peach-input" id="w1_t2" value="0.5" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="w1_avg1">0.00</td>
+                        <td><input type="number" min="0" step="0.01" class="cell-input bg-blue-input" id="w1_w_t1" value="0.2" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td><input type="number" min="0" step="0.01" class="cell-input bg-peach-input" id="w1_w_t2" value="0.1" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="w1_avg2">0.00</td>
+                        <td><input type="number" min="0" step="0.1" class="cell-input bg-blue-input" id="w1_b_t1" value="134.8" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td><input type="number" min="0" step="0.1" class="cell-input bg-peach-input" id="w1_b_t2" value="139.4" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="w1_b_avg">0.00</td>
+                        <td class="calc-value" id="w1_md">0.00</td>
                     </tr>
                     <!-- PLASTIC -->
                     <tr>
                         <td><strong>Plastic</strong></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="p1_t1" value="0" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="p1_t2" value="0" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="p1_avg1">0</td>
-                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="p1_w_t1" value="0" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="p1_w_t2" value="0" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="p1_avg2">0</td>
-                        <td><input type="number" step="0.1" class="cell-input bg-blue-input" id="p1_b_t1" value="0" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.1" class="cell-input bg-peach-input" id="p1_b_t2" value="0" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="p1_b_avg">0</td>
-                        <td class="calc-value" id="p1_md">0</td>
+                        <td><input type="number" min="0" step="0.01" class="cell-input bg-blue-input" id="p1_t1" value="1.6" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td><input type="number" min="0" step="0.01" class="cell-input bg-peach-input" id="p1_t2" value="1.6" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="p1_avg1">0.00</td>
+                        <td><input type="number" min="0" step="0.01" class="cell-input bg-blue-input" id="p1_w_t1" value="0.2" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td><input type="number" min="0" step="0.01" class="cell-input bg-peach-input" id="p1_w_t2" value="0.3" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="p1_avg2">0.00</td>
+                        <td><input type="number" min="0" step="0.1" class="cell-input bg-blue-input" id="p1_b_t1" value="241.2" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td><input type="number" min="0" step="0.1" class="cell-input bg-peach-input" id="p1_b_t2" value="239.0" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="p1_b_avg">0.00</td>
+                        <td class="calc-value" id="p1_md">0.00</td>
                     </tr>
                     <!-- METAL -->
                     <tr>
                         <td><strong>Metal</strong></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="m1_t1" value="0" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="m1_t2" value="0" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="m1_avg1">0</td>
-                        <td><input type="number" step="0.01" class="cell-input bg-blue-input" id="m1_w_t1" value="0" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.01" class="cell-input bg-peach-input" id="m1_w_t2" value="0" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="m1_avg2">0</td>
-                        <td><input type="number" step="0.1" class="cell-input bg-blue-input" id="m1_b_t1" value="0" oninput="calculateAll()"></td>
-                        <td><input type="number" step="0.1" class="cell-input bg-peach-input" id="m1_b_t2" value="0" oninput="calculateAll()"></td>
-                        <td class="calc-value" id="m1_b_avg">0</td>
-                        <td class="calc-value" id="m1_md">0</td>
+                        <td><input type="number" min="0" step="0.01" class="cell-input bg-blue-input" id="m1_t1" value="3.6" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td><input type="number" min="0" step="0.01" class="cell-input bg-peach-input" id="m1_t2" value="3.6" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="m1_avg1">0.00</td>
+                        <td><input type="number" min="0" step="0.01" class="cell-input bg-blue-input" id="m1_w_t1" value="2.4" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td><input type="number" min="0" step="0.01" class="cell-input bg-peach-input" id="m1_w_t2" value="2.3" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="m1_avg2">0.00</td>
+                        <td><input type="number" min="0" step="0.1" class="cell-input bg-blue-input" id="m1_b_t1" value="233.6" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td><input type="number" min="0" step="0.1" class="cell-input bg-peach-input" id="m1_b_t2" value="230.2" onfocus="this.select()" oninput="calculateAll()"></td>
+                        <td class="calc-value" id="m1_b_avg">0.00</td>
+                        <td class="calc-value" id="m1_md">0.00</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-
     <!-- JADUAL 2: PENGIRAAN DAYA APUNGAN & PERATUS RALAT -->
     <div class="card">
         <div class="card-title">2. Buoyant Force & Percentage Error</div>
@@ -317,19 +320,19 @@
                         <td><strong>Wood</strong></td>
                         <td class="calc-value" id="w1_wd">0</td>
                         <td class="calc-value" id="w1_fb">0</td>
-                        <td class="calc-value" id="w1_err">0%</td>
+                        <td class="calc-value" id="w1_err">-</td>
                     </tr>
                     <tr>
                         <td><strong>Plastic</strong></td>
                         <td class="calc-value" id="p1_wd">0</td>
                         <td class="calc-value" id="p1_fb">0</td>
-                        <td class="calc-value" id="p1_err">0%</td>
+                        <td class="calc-value" id="p1_err">-</td>
                     </tr>
                     <tr>
                         <td><strong>Metal</strong></td>
                         <td class="calc-value" id="m1_wd">0</td>
                         <td class="calc-value" id="m1_fb">0</td>
-                        <td class="calc-value" id="m1_err">0%</td>
+                        <td class="calc-value" id="m1_err">-</td>
                     </tr>
                 </tbody>
             </table>
@@ -344,8 +347,8 @@
         </div>
         <div style="margin-top: 15px; font-size: 0.85rem; color: #64748b; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
             💡 <b>Notes:</b><br>
-            • <i>g</i> is the gravity = 9.81 m/s².<br>
-            • Percentage of errors calculated using formula:|F<sub>B</sub> - W<sub>displaced</sub>| / F<sub>B</sub> × 100%.
+            • <i>g</i> is the gravitational acceleration = 9.81 m/s².<br>
+            • Percentage of error is calculated using the formula: |F<sub>B</sub> - W<sub>displaced</sub>| / F<sub>B</sub> × 100%.
         </div>
     </div>
 
@@ -383,11 +386,12 @@
             let fb = avg1 - avg2;
             document.getElementById(prefix + '_fb').innerText = fb.toFixed(2);
 
-            let error = 0;
             if (fb > 0) {
-                error = (Math.abs(fb - wDisplaced) / fb) * 100;
+                let error = (Math.abs(fb - wDisplaced) / fb) * 100;
+                document.getElementById(prefix + '_err').innerText = error.toFixed(2) + "%";
+            } else {
+                document.getElementById(prefix + '_err').innerText = "-";
             }
-            document.getElementById(prefix + '_err').innerText = error.toFixed(2) + "%";
         }
 
         processRow('w1');
@@ -396,33 +400,9 @@
     }
 
     function resetToZero() {
-        // Reset Mass of empty beaker ke 0
-        document.getElementById('mEmpty').value = 0;
-
-        // Reset Wood (Ujian 1 & Ujian 2 ke 0)
-        document.getElementById('w1_t1').value = 0;
-        document.getElementById('w1_t2').value = 0;
-        document.getElementById('w1_w_t1').value = 0;
-        document.getElementById('w1_w_t2').value = 0;
-        document.getElementById('w1_b_t1').value = 0;
-        document.getElementById('w1_b_t2').value = 0;
-
-        // Reset Plastic (Ujian 1 & Ujian 2 ke 0)
-        document.getElementById('p1_t1').value = 0;
-        document.getElementById('p1_t2').value = 0;
-        document.getElementById('p1_w_t1').value = 0;
-        document.getElementById('p1_w_t2').value = 0;
-        document.getElementById('p1_b_t1').value = 0;
-        document.getElementById('p1_b_t2').value = 0;
-
-        // Reset Metal (Ujian 1 & Ujian 2 ke 0)
-        document.getElementById('m1_t1').value = 0;
-        document.getElementById('m1_t2').value = 0;
-        document.getElementById('m1_w_t1').value = 0;
-        document.getElementById('m1_w_t2').value = 0;
-        document.getElementById('m1_b_t1').value = 0;
-        document.getElementById('m1_b_t2').value = 0;
-
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.value = 0;
+        });
         calculateAll();
     }
 
